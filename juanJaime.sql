@@ -3,7 +3,7 @@ create database conexionJavaSQL
 create table usuarios (
 idUsuario int IDENTITY NOT NULL PRIMARY KEY,
 nombreUsuario varchar(20) NOT NULL,
-contraseña varchar(20) NOT NULL, 
+contraseÃ±a varchar(20) NOT NULL, 
 telefono varchar(10) NOT NULL,
 partidasGanadas int NOT NULL,
 )
@@ -38,6 +38,6 @@ insert into usuarios values('tongoxd','hailgrasa','6971133066',10)
 insert into usuarios values('bry555','enchiladas','6971094100',4)
 insert into usuarios values('bry555','enchildas2','6971104201',5)
 
-delete from usuarios where contraseña = 'enchildas2'
+delete from usuarios where contraseÃ±a = 'enchildas2'
 
 select*from usuarios
