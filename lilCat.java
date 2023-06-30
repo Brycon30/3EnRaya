@@ -1,4 +1,4 @@
-package cat;
+package servidor;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
