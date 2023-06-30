@@ -46,3 +46,23 @@ update jugadores
 set partidasGanadas = partidasGanadas+1
 where nombre = @nombre
 end
+
+--SE CREA PROCEDIMIENTO ALMACENADO QUE MUESTRA EL LEADERBOARD
+create procedure mostrarLeaderboard
+as
+begin
+select nombre, partidasGanadas from jugadores
+Order by partidasGanadas DESC;
+end
+
+--INSERTS DE PRUEBA
+INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
+VALUES ('Juan', '123456', '1234567890', 3);
+INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
+VALUES ('María', 'abcdef', '9876543210', 5);
+INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
+VALUES ('Pedro', 'qwerty', '5555555555', 1);
+INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
+VALUES ('Ana', 'password', '6666666666', 2);
+INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
+VALUES ('Luis', 'abc123', '1111111111', 0);
