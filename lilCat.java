@@ -12,6 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class lilCat extends JFrame {
 
@@ -59,6 +61,8 @@ public class lilCat extends JFrame {
 		contentPane.setLayout(null);
 
 		textFieldResultado = new JTextField();
+		textFieldResultado.setEditable(false);
+		textFieldResultado.setForeground(new Color(30, 144, 255));
 		textFieldResultado.setToolTipText("Se muestra ganador.");
 		textFieldResultado.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldResultado.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -67,57 +71,83 @@ public class lilCat extends JFrame {
 		textFieldResultado.setColumns(10);
 
 		btn00 = new JButton("");
-		btn00.setFont(new Font("Arial", Font.PLAIN, 22));
+		btn00.setBackground(Color.WHITE);
+		btn00.setForeground(new Color(30, 144, 255));
+		btn00.setFont(new Font("Arial", Font.BOLD, 25));
 		btn00.setBounds(10, 53, 89, 89);
 		contentPane.add(btn00);
 
 		btn01 = new JButton("");
-		btn01.setFont(new Font("Arial", Font.PLAIN, 22));
+		btn01.setBackground(Color.WHITE);
+		btn01.setForeground(new Color(30, 144, 255));
+		btn01.setFont(new Font("Arial", Font.BOLD, 25));
 		btn01.setBounds(109, 53, 89, 89);
 		contentPane.add(btn01);
 
 		btn02 = new JButton("");
-		btn02.setFont(new Font("Arial", Font.PLAIN, 22));
+		btn02.setBackground(Color.WHITE);
+		btn02.setForeground(new Color(30, 144, 255));
+		btn02.setFont(new Font("Arial", Font.BOLD, 25));
 		btn02.setBounds(208, 53, 89, 89);
 		contentPane.add(btn02);
 
 		btn10 = new JButton("");
-		btn10.setFont(new Font("Arial", Font.PLAIN, 22));
+		btn10.setBackground(Color.WHITE);
+		btn10.setForeground(new Color(30, 144, 255));
+		btn10.setFont(new Font("Arial", Font.BOLD, 25));
 		btn10.setBounds(10, 153, 89, 89);
 		contentPane.add(btn10);
 
 		btn11 = new JButton("");
-		btn11.setFont(new Font("Arial", Font.PLAIN, 22));
+		btn11.setBackground(Color.WHITE);
+		btn11.setForeground(new Color(30, 144, 255));
+		btn11.setFont(new Font("Arial", Font.BOLD, 25));
 		btn11.setBounds(109, 153, 89, 89);
 		contentPane.add(btn11);
 
 		btn12 = new JButton("");
-		btn12.setFont(new Font("Arial", Font.PLAIN, 22));
+		btn12.setBackground(Color.WHITE);
+		btn12.setForeground(new Color(30, 144, 255));
+		btn12.setFont(new Font("Arial", Font.BOLD, 25));
 		btn12.setBounds(208, 153, 89, 89);
 		contentPane.add(btn12);
 
 		btn20 = new JButton("");
-		btn20.setFont(new Font("Arial", Font.PLAIN, 22));
+		btn20.setBackground(Color.WHITE);
+		btn20.setForeground(new Color(30, 144, 255));
+		btn20.setFont(new Font("Arial", Font.BOLD, 25));
 		btn20.setBounds(10, 253, 89, 89);
 		contentPane.add(btn20);
 
 		btn21 = new JButton("");
-		btn21.setFont(new Font("Arial", Font.PLAIN, 22));
+		btn21.setBackground(Color.WHITE);
+		btn21.setForeground(new Color(30, 144, 255));
+		btn21.setFont(new Font("Arial", Font.BOLD, 25));
 		btn21.setBounds(109, 253, 89, 89);
 		contentPane.add(btn21);
 
 		btn22 = new JButton("");
-		btn22.setFont(new Font("Arial", Font.PLAIN, 22));
+		btn22.setBackground(Color.WHITE);
+		btn22.setForeground(new Color(30, 144, 255));
+		btn22.setFont(new Font("Arial", Font.BOLD, 25));
 		btn22.setBounds(208, 253, 89, 89);
 		contentPane.add(btn22);
 		
 		btnSalir = new JButton("Salir");
+		btnSalir.setForeground(new Color(30, 144, 255));
+		btnSalir.setFont(new Font("Arial", Font.PLAIN, 20));
+		btnSalir.setBackground(Color.WHITE);
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnSalir.setBounds(109, 353, 89, 23);
 		contentPane.add(btnSalir);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\tongo\\Pictures\\tresenraya game\\fondoGeneral.png"));
+		lblNewLabel.setBounds(0, 0, 310, 387);
+		contentPane.add(lblNewLabel);
 
 		Manejador escuchador = new Manejador();
 
