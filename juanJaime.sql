@@ -37,6 +37,23 @@ END
 
 end
 
+--SE CREA EL TRIGGER QUE EVITA QUE SE CAMBIE EL NOMBRE DE UN JUGADOR
+create trigger verificarUpdateUsuario
+ON jugadores
+for update
+as
+begin
+declare @nombreDel varchar(50), @nombreIns varchar(50)
+select @nombreDel = nombre from deleted
+select @nombreIns = nombre from inserted
+if (@nombreDel <> @nombreIns)
+begin
+rollback
+raiserror('No se puede actualizar el nombre',16,1)
+return;
+end
+end
+
 --SE CREA EL PROCEDIMIENTO ALMACENADO QUE AUMENTA LAS PARTIDAS GANADAS Y SE LE ENVÍA DE VALOR EL NOMBRE JUGADOR GANADOR
 create procedure ganarPartida
 @nombre varchar(20)
@@ -57,12 +74,12 @@ end
 
 --INSERTS DE PRUEBA
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
-VALUES ('Juan', '123456', '1234567890', 3);
+VALUES ('Juan', '123456', '1234567890', 3)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
-VALUES ('María', 'abcdef', '9876543210', 5);
+VALUES ('María', 'abcdef', '9876543210', 5)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
-VALUES ('Pedro', 'qwerty', '5555555555', 1);
+VALUES ('Pedro', 'qwerty', '5555555555', 1)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
-VALUES ('Ana', 'password', '6666666666', 2);
+VALUES ('Ana', 'password', '6666666666', 2)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
-VALUES ('Luis', 'abc123', '1111111111', 0);
+VALUES ('Luis', 'abc123', '1111111111', 0)
