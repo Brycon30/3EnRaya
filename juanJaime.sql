@@ -64,6 +64,8 @@ set partidasGanadas = partidasGanadas+1
 where nombre = @nombre
 end
 
+exec ganarPartida ''
+
 --SE CREA PROCEDIMIENTO ALMACENADO QUE MUESTRA EL LEADERBOARD
 create procedure mostrarLeaderboard
 as
@@ -71,6 +73,22 @@ begin
 select nombre, partidasGanadas from jugadores
 Order by partidasGanadas DESC;
 end
+
+insert into partidas values(clienteId,Remitente,usuarioGanador)
+
+create procedure winrate
+@nombre varchar(50)
+as
+begin
+declare @partidasTotales int, @partidasGanadas int, @winrate int
+select @partidasTotales = (select COUNT(*) as totales from partidas where jugadorO = @nombre OR jugadorX = @nombre)
+select @partidasGanadas = (select COUNT(*) as ganadas from partidas where usuarioGanador = @nombre)
+
+select @winrate = (@partidasGanadas / @partidasTotales)*100
+
+end
+
+exec winrate 'Juan'
 
 --INSERTS DE PRUEBA
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
@@ -83,3 +101,5 @@ INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
 VALUES ('Ana', 'password', '6666666666', 2)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
 VALUES ('Luis', 'abc123', '1111111111', 0)
+
+select*from jugadores
