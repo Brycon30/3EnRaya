@@ -19,6 +19,62 @@ foreign key (jugadorO) references jugadores(nombre),
 foreign key (jugadorX) references jugadores(nombre)
 )
 
+--SE CREA LA BITACORA DE USUARIOS
+create table bitacoraJugadores (
+fecha datetime primary key,
+usuario varchar(50),
+app varchar(200),
+host varchar(50),
+registro_anterior varchar(500),
+registro_nuevo varchar(500)
+)
+
+--SE CREA TRIGGER PARA AGREGAR A LA BITACORA LOS INSERTS LOS NUEVOS JUGADORES
+alter trigger insertJugadores
+on jugadores
+for insert
+as 
+begin
+--declaramos una var que nos servira para conectar el registro nuevo
+declare @reg varchar(500)
+--concatenamos el registro de la tabla inserted en una sola variable
+select @reg=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from inserted
+--insertamos en la tabla bitacora el registro de nuevo y los datos de control
+insert into bitacoraJugadores values(
+GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),null,@reg)
+end
+
+--SE CREA EL TRIGGER PARA AGREGAR A LA BITACORA LOS DELETES DE LOS JUGADORES
+alter trigger deleteJugadores
+on jugadores
+for DELETE
+as 
+begin
+--declaramos una var que nos servira para conectar el registro nuevo
+declare @reg varchar(500)
+--concatenamos el registro de la tabla deleted en una sola variable
+select @reg=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from deleted
+--insertamos en la tabla bitacora el registro de nuevo y los datos de control
+insert into bitacoraJugadores values(
+GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,null)
+end
+
+create trigger updateJugadores
+on jugadores
+for UPDATE
+as 
+begin
+--declaramos una var que nos servira para conectar el registro nuevo
+declare @reg varchar(500)
+declare @regNuevo varchar(500)
+--concatenamos el registro de la tabla deleted en una sola variable
+select @reg=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from deleted
+select @regNuevo=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from inserted
+--insertamos en la tabla bitacora el registro de nuevo y los datos de control
+insert into bitacoraJugadores values(
+GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
+end
+
 --SE CREA EL TRIGGER PARA VERIFICAR QUE EL USUARIO NO EXISTA
 create trigger verificarUsuario
 ON jugadores
@@ -101,5 +157,14 @@ INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
 VALUES ('Ana', 'password', '6666666666', 2)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
 VALUES ('Luis', 'abc123', '1111111111', 0)
+INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
+VALUES ('papu', 'abc123', '1111111111', 0)
+
+delete from jugadores where nombre = 'a'
+
+update jugadores
+set nombre = 'Bry55'
+where nombre = 'Bryo'
 
 select*from jugadores
+select*from bitacoraJugadores
