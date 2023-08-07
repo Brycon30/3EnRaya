@@ -14,7 +14,7 @@ create table partidas (
 idPartida int IDENTITY NOT NULL PRIMARY KEY,
 jugadorO varchar(50),
 jugadorX varchar(50),
-usuarioGanador varchar(1),
+usuarioGanador varchar(50),
 foreign key (jugadorO) references jugadores(nombre),
 foreign key (jugadorX) references jugadores(nombre)
 )
@@ -120,8 +120,6 @@ set partidasGanadas = partidasGanadas+1
 where nombre = @nombre
 end
 
-exec ganarPartida ''
-
 --SE CREA PROCEDIMIENTO ALMACENADO QUE MUESTRA EL LEADERBOARD
 create procedure mostrarLeaderboard
 as
@@ -129,8 +127,6 @@ begin
 select nombre, partidasGanadas from jugadores
 Order by partidasGanadas DESC;
 end
-
-insert into partidas values(clienteId,Remitente,usuarioGanador)
 
 create procedure winrate
 @nombre varchar(50)
@@ -144,7 +140,24 @@ select @winrate = (@partidasGanadas / @partidasTotales)*100
 
 end
 
-exec winrate 'Juan'
+--SE CREA EL PROCESO ALMACENADO QUE REGISTRA LA PARTIDAS AUTOMATICAMENTE
+create procedure crearPartida
+@jugador0 varchar(50),
+@jugadorX varchar(50),
+@jugadorGanador varchar(50)
+as begin
+insert into partidas values(@jugador0,@jugadorX,@jugadorGanador)
+end
+
+--SE CREA PROCESO QUE ENCUENTRA LAS PARTIDAS JUGADAS POR UN JUGADOR ESPECIFICO
+alter procedure partidasTotales
+@nombre varchar(50)
+as begin
+declare @partidasTotales int
+select @partidasTotales = (select COUNT(*) as totales from partidas where jugadorO = @nombre or jugadorX = @nombre)
+
+select @partidasTotales as totales
+end
 
 --INSERTS DE PRUEBA
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
@@ -166,5 +179,8 @@ update jugadores
 set nombre = 'Bry55'
 where nombre = 'Bryo'
 
+exec partidasTotales 'Bry555'
+
 select*from jugadores
+select*from partidas
 select*from bitacoraJugadores
