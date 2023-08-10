@@ -7,6 +7,8 @@ nombre varchar(50) NOT NULL primary key,
 contraseña varchar(50) NOT NULL, 
 telefono varchar(10) NOT NULL,
 partidasGanadas int NOT NULL,
+preguntaSeguridad varchar(128),
+respuestaSeguridad varchar(128)
 )
 
 --SE CREA LA TABLA PARTIDAS
@@ -29,32 +31,76 @@ registro_anterior varchar(500),
 registro_nuevo varchar(500)
 )
 
+create table bitacoraPartidas (
+fecha datetime primary key,
+usuario varchar(50),
+app varchar(200),
+host varchar(50),
+registro_anterior varchar(500),
+registro_nuevo varchar(500)
+)
+
+--SE CREA TRIGGER PARA AGREGAR A LA BITACORA LOS INSERT DE LAS PARTIDAS
+create trigger insertPartidas
+on partidas
+for INSERT
+as 
+begin
+declare @reg varchar(500)
+declare @regNuevo varchar(500)
+select @regNuevo=concat(idPartida,'|',jugadorO,'|',jugadorX,'|',usuarioGanador) from inserted
+--select @regNuevo=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from inserted
+insert into bitacoraPartidas values(
+GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
+end
+
+--SE CREA TRIGGER PARA AGREGAR A LA BITACORA LOS DELETE DE LAS PARTIDAS
+create trigger deletePartidas
+on partidas
+for INSERT
+as 
+begin
+declare @reg varchar(500)
+declare @regNuevo varchar(500)
+select @reg=concat(idPartida,'|',jugadorO,'|',jugadorX,'|',usuarioGanador) from deleted
+insert into bitacoraPartidas values(
+GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
+end
+
+--SE CREA TRIGGER PARA AGREGAR A LA BITACORA LOS UPDATE DE LAS PARTIDAS
+create trigger updatePartidas
+on partidas
+for INSERT
+as 
+begin
+declare @reg varchar(500)
+declare @regNuevo varchar(500)
+select @reg=concat(idPartida,'|',jugadorO,'|',jugadorX,'|',usuarioGanador) from inserted
+select @regNuevo=concat(idPartida,'|',jugadorO,'|',jugadorX,'|',usuarioGanador) from inserted
+insert into bitacoraPartidas values(
+GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
+end
+
 --SE CREA TRIGGER PARA AGREGAR A LA BITACORA LOS INSERTS LOS NUEVOS JUGADORES
-alter trigger insertJugadores
+create trigger insertJugadores
 on jugadores
 for insert
 as 
 begin
---declaramos una var que nos servira para conectar el registro nuevo
 declare @reg varchar(500)
---concatenamos el registro de la tabla inserted en una sola variable
 select @reg=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from inserted
---insertamos en la tabla bitacora el registro de nuevo y los datos de control
 insert into bitacoraJugadores values(
 GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),null,@reg)
 end
 
 --SE CREA EL TRIGGER PARA AGREGAR A LA BITACORA LOS DELETES DE LOS JUGADORES
-alter trigger deleteJugadores
+create trigger deleteJugadores
 on jugadores
 for DELETE
 as 
 begin
---declaramos una var que nos servira para conectar el registro nuevo
 declare @reg varchar(500)
---concatenamos el registro de la tabla deleted en una sola variable
 select @reg=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from deleted
---insertamos en la tabla bitacora el registro de nuevo y los datos de control
 insert into bitacoraJugadores values(
 GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,null)
 end
@@ -64,13 +110,10 @@ on jugadores
 for UPDATE
 as 
 begin
---declaramos una var que nos servira para conectar el registro nuevo
 declare @reg varchar(500)
 declare @regNuevo varchar(500)
---concatenamos el registro de la tabla deleted en una sola variable
 select @reg=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from deleted
 select @regNuevo=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from inserted
---insertamos en la tabla bitacora el registro de nuevo y los datos de control
 insert into bitacoraJugadores values(
 GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
 end
@@ -150,7 +193,7 @@ insert into partidas values(@jugador0,@jugadorX,@jugadorGanador)
 end
 
 --SE CREA PROCESO QUE ENCUENTRA LAS PARTIDAS JUGADAS POR UN JUGADOR ESPECIFICO
-alter procedure partidasTotales
+create procedure partidasTotales
 @nombre varchar(50)
 as begin
 declare @partidasTotales int
