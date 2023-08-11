@@ -205,6 +205,9 @@ create procedure crearPartida
 @jugador0 varchar(50),
 @jugadorX varchar(50),
 @jugadorGanador varchar(50)
+update jugadores
+set partidasGanadas = partidasGanadas+1
+where nombre = @nombre
 as begin
 insert into partidas values(@jugador0,@jugadorX,@jugadorGanador)
 end
