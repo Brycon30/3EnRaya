@@ -142,21 +142,26 @@ public class Server {
 			}
 			if (mensajeA.equals("Gane")) {
 				// 0=x
-				String ganador;
+				String ganador = null;
 
 				String usuarioX = (String) clientes.keySet().toArray()[0];
 				Socket nombreX = clientes.get(usuarioX);
 				String strNombreX = String.valueOf(nombreX);
+				System.out.println(usuarioX+nombreX+strNombreX);
 
 				String usuarioO = (String) clientes.keySet().toArray()[1];
 				Socket nombreO = clientes.get(usuarioO);
 				String strNombreO = String.valueOf(nombreO);
+				System.out.println(strNombreO+strNombreX+ganador);
 
-				if (usuarioX == remitente) {
-					ganador = strNombreX;
+				if (usuarioX.equals(remitente)) {
+					ganador = usuarioX;
+					System.out.println(strNombreO+strNombreX+ganador);
 				} else {
-					ganador = strNombreO;
+					ganador = usuarioO;
+					System.out.println(strNombreO+strNombreX+ganador);
 				}
+				System.out.println(strNombreO+strNombreX+ganador);
 
 				PreparedStatement sentencia = null;
 				// \u00f1 es la letra n con ceja
