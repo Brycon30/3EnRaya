@@ -1,6 +1,7 @@
 --SE CREA LA BASE DE DATOS
 create database tresenraya
 
+--INTENTANDO HACER COMMIT DESDE SQL
 --SE CREA LA TABLA DE USUARIOS/JUGADORES EN ESTE PUEDES CAMBIAR EL NOMBRE A LO QUE QUIERASXD
 create table jugadores (
 nombre varchar(50) NOT NULL primary key,
