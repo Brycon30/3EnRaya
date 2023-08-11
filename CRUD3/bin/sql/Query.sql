@@ -135,7 +135,6 @@ ELSE
 BEGIN
 INSERT INTO jugadores (nombre,contraseña,telefono,partidasGanadas) select nombre, contraseña, telefono, partidasGanadas from inserted
 END
-
 end
 
 --SE CREA EL TRIGGER QUE EVITA QUE SE CAMBIE EL NOMBRE DE UN JUGADOR
@@ -217,6 +216,8 @@ INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
 VALUES ('Luis', 'abc123', '1111111111', 0)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
 VALUES ('papu', 'abc123', '1111111111', 0)
+INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
+VALUES ('mamu', 'abc123', '1111111111', 0)
 
 delete from jugadores where nombre = 'a'
 
@@ -229,3 +230,4 @@ exec partidasTotales 'Bry555'
 select*from jugadores
 select*from partidas
 select*from bitacoraJugadores
+select*from bitacoraPartidas
