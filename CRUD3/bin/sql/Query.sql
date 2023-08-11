@@ -9,8 +9,6 @@ nombre varchar(50) NOT NULL primary key,
 contraseña varchar(50) NOT NULL, 
 telefono varchar(10) NOT NULL,
 partidasGanadas int NOT NULL,
-preguntaSeguridad varchar(128),
-respuestaSeguridad varchar(128)
 )
 
 --SE CREA LA TABLA PARTIDAS
@@ -21,6 +19,15 @@ jugadorX varchar(50),
 usuarioGanador varchar(50),
 foreign key (jugadorO) references jugadores(nombre),
 foreign key (jugadorX) references jugadores(nombre)
+)
+
+--SE CREA LA TABLA DE PREGUNTAS DE SEGURIDAD
+create table preguntasSeguridad (
+idPregunta int IDENTITY NOT NULL PRIMARY KEY,
+usuario varchar(50),
+pregunta varchar(128),
+respuesta varchar(128),
+foreign key (usuario) referenes jugadores(nombre)
 )
 
 --SE CREA LA BITACORA DE USUARIOS
@@ -36,6 +43,15 @@ registro_nuevo varchar(500)
 create table bitacoraPartidas (
 fecha datetime primary key,
 usuario varchar(50),
+app varchar(200),
+host varchar(50),
+registro_anterior varchar(500),
+registro_nuevo varchar(500)
+)
+
+create table bitacoraPreguntas (
+fecha datetime primary key,
+usuario varchar(200),
 app varchar(200),
 host varchar(50),
 registro_anterior varchar(500),
