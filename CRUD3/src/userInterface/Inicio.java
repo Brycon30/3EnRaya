@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 public class Inicio extends JFrame {
 
 	//PRUEBA DE COMMIT Y PUSH DESDE EL GATO DE LARA PARA EL MUNDO
+	//INTENTANDO CONSEGUIR COMMIT DESDE GIT A JAVA
 	private JPanel contentPane;
 	private JButton btnRegistro;
 	private JButton btnLogin;
