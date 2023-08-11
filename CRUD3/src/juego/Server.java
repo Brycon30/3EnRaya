@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import conexion.Conexion;
 
 public class Server {
-	
+
 	public static Socket cliente = null;
 
 	public static Map<String, Socket> clientes = new HashMap<>();
@@ -32,7 +32,7 @@ public class Server {
 
 				cliente = servidor.accept();
 				System.out.println("Nueva conexión aceptada: " + cliente.getInetAddress().getHostAddress());
-				System.out.println("nombre:"+Conexion.nombre);
+				System.out.println("nombre:" + Conexion.nombre);
 
 				if (clientes.size() < 2) {
 					boolean b = true;
@@ -49,10 +49,10 @@ public class Server {
 					// Aquí puedes manejar la conexión con el cliente en un hilo separado
 					Thread clienteThread = new Thread(new ClienteHandler(cliente, nombreCliente));
 					clienteThread.start();
-					if (clientes.size()==2&& b) {
-						enviarMensaje("tu turno",0);
-						enviarMensaje("espera turno",1);
-						b= false;
+					if (clientes.size() == 2 && b) {
+						enviarMensaje("tu turno", 0);
+						enviarMensaje("espera turno", 1);
+						b = false;
 					}
 				} else {
 					System.out.println(
@@ -101,101 +101,93 @@ public class Server {
 			}
 		}
 	}
-	
-	//este metodo se utiliza para mandar un mensaje a un jugador en especifico
+
+	// este metodo se utiliza para mandar un mensaje a un jugador en especifico
 	public static void enviarMensaje(String mensajePriv, int posicion) {
-	    if (posicion < clientes.size()) {
-	        String nombreUsuario = (String) clientes.keySet().toArray()[posicion];
-	        Socket cliente = clientes.get(nombreUsuario);
-	        System.out.println(nombreUsuario+cliente);
-	        System.out.println(clientes.size());
-	        System.out.println(posicion);
-	        System.out.println(mensajePriv);
-	        try {
-	            OutputStream outputStream = cliente.getOutputStream();
-	            PrintWriter writer = new PrintWriter(outputStream);
-	            writer.println(mensajePriv);
-	            writer.flush();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    } else {
-	        System.out.println("No se encontró cliente en la posición " + posicion);
-	    }
+		if (posicion < clientes.size()) {
+			String nombreUsuario = (String) clientes.keySet().toArray()[posicion];
+			Socket cliente = clientes.get(nombreUsuario);
+			System.out.println(nombreUsuario + cliente);
+			System.out.println(clientes.size());
+			System.out.println(posicion);
+			System.out.println(mensajePriv);
+			try {
+				OutputStream outputStream = cliente.getOutputStream();
+				PrintWriter writer = new PrintWriter(outputStream);
+				writer.println(mensajePriv);
+				writer.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("No se encontró cliente en la posición " + posicion);
+		}
 	}
-	
-	
 
-	//esta funcion checa el mensaje y se le manda a todas las personas conectadas que no sean el que lo mando
+	// esta funcion checa el mensaje y se le manda a todas las personas conectadas
+	// que no sean el que lo mando
 	private static void enviarMensajeAClientes(String mensajeA, String remitente) {
-	    try {
-	    	
-	        for (Map.Entry<String, Socket> entry : clientes.entrySet()) {
-	            String clienteId = entry.getKey();
-	            Socket cliente = entry.getValue();
-	            
+		try {
 
-	            if (!clienteId.equals(remitente)) {
-	                OutputStream outputStream = cliente.getOutputStream();
-	                PrintWriter writer = new PrintWriter(outputStream);
-	                writer.println(mensajeA); // Agregar un carácter de nueva línea al final del mensaje
-	                writer.flush();
-	            }
-	        }
-	        if(mensajeA.equals("Gane")){
-	        	//0=x
-	        	String ganador;
-	        	
-	        	String usuarioX = (String) clientes.keySet().toArray()[0];
-		        Socket nombreX = clientes.get(usuarioX);
-		        String strNombreX = String.valueOf(nombreX);
-		        
-		        String usuarioO = (String) clientes.keySet().toArray()[1];
-		        Socket nombreO = clientes.get(usuarioO);
-		        String strNombreO = String.valueOf(nombreO);
-		        
-		        if(usuarioX == remitente){
-		        	ganador = strNombreX;
-		        }else {
-		        	ganador = strNombreO;
-		        }
-		        
-	        	/*
-            	
-            	PreparedStatement sentencia = null;
-    			//\u00f1 es la letra n con ceja
-    			// se prepara el codigo sql para ingresar datos
-    			String sql = "insert into jugadores (nombre,contrase\u00f1a,telefono,partidasGanadas) values(?,?,?,?)";
-    			try {// preparedStatement es para ingresar datos
-    				sentencia = Conexion.getConnection().prepareStatement(sql);
-    				sentencia.setString(1, tfNombre.getText());
-    				sentencia.setString(2, tfPassword.getText());
-    				sentencia.setString(3, tfTelefono.getText());
-    				sentencia.setInt(4, 0);
-    				
+			for (Map.Entry<String, Socket> entry : clientes.entrySet()) {
+				String clienteId = entry.getKey();
+				Socket cliente = entry.getValue();
 
-    				if (sentencia.executeUpdate() > 0) {
-    					// si se hace el insert muestra este mensaje
-    					JOptionPane.showMessageDialog(null, "Se ha registrado Exitosamente", "InformaciÃ³n",
-    							JOptionPane.INFORMATION_MESSAGE);
-    				}
+				if (!clienteId.equals(remitente)) {
+					OutputStream outputStream = cliente.getOutputStream();
+					PrintWriter writer = new PrintWriter(outputStream);
+					writer.println(mensajeA); // Agregar un carácter de nueva línea al final del mensaje
+					writer.flush();
+				}
+			}
+			if (mensajeA.equals("Gane")) {
+				// 0=x
+				String ganador;
 
-    			} catch (SQLException e) {
-    				System.err.print("Error de SQL " + e.getMessage());
-    				e.printStackTrace();
-    				JOptionPane.showMessageDialog(null, "No se Registro, verifique la consola para ver el error", "Error",);*/
-    				
-            	
-            	
-            	
-				
-				for (Map.Entry<String, Socket> entry : clientes.entrySet()) {
-		            String clienteId = entry.getKey();
-		            Socket cliente = entry.getValue();
-		            cliente.close();}
-            }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+				String usuarioX = (String) clientes.keySet().toArray()[0];
+				Socket nombreX = clientes.get(usuarioX);
+				String strNombreX = String.valueOf(nombreX);
+
+				String usuarioO = (String) clientes.keySet().toArray()[1];
+				Socket nombreO = clientes.get(usuarioO);
+				String strNombreO = String.valueOf(nombreO);
+
+				if (usuarioX == remitente) {
+					ganador = strNombreX;
+				} else {
+					ganador = strNombreO;
+				}
+
+				PreparedStatement sentencia = null;
+				// \u00f1 es la letra n con ceja
+				// se prepara el codigo sql para ingresar datos
+				String sql = "exec crearPartida ?,?,? ";
+				try {// preparedStatement es para ingresar datos
+					sentencia = Conexion.getConnection().prepareStatement(sql);
+					sentencia.setString(1, usuarioX);
+					sentencia.setString(2, usuarioO);
+					sentencia.setString(3, ganador);
+
+					if (sentencia.executeUpdate() > 0) {
+						// si se hace el insert muestra este mensaje
+						JOptionPane.showMessageDialog(null, "Se ha registrado Exitosamente", "InformaciÃ³n",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+
+				} catch (SQLException e) {
+					System.err.print("Error de SQL " + e.getMessage());
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "No se Registro, verifique la consola para ver el error");
+
+					for (Map.Entry<String, Socket> entry : clientes.entrySet()) {
+						String clienteId = entry.getKey();
+						Socket cliente = entry.getValue();
+						cliente.close();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
