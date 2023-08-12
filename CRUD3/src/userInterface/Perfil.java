@@ -96,9 +96,26 @@ public class Perfil extends JFrame {
 				MenuInicio m = new MenuInicio();
 				m.setVisible(true);
 				((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();// cerramos la ventana actual
-			
 			}
 		});
+		
+		JButton btnEditarPerfil = new JButton("Editar perfil");
+		btnEditarPerfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PerfilOpciones po = new PerfilOpciones();
+				po.setVisible(true);
+				if (po.isVisible()) {
+					setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				} else {
+					setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}
+			}
+		});
+		btnEditarPerfil.setForeground(new Color(30, 144, 255));
+		btnEditarPerfil.setFont(new Font("Arial", Font.PLAIN, 25));
+		btnEditarPerfil.setBackground(Color.WHITE);
+		btnEditarPerfil.setBounds(181, 314, 234, 51);
+		contentPane.add(btnEditarPerfil);
 		btnVolver.setBounds(10, 435, 234, 51);
 		contentPane.add(btnVolver);
 		
