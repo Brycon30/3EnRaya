@@ -27,6 +27,7 @@ public class Perfil extends JFrame {
 	private JLabel lblShowNombre;
 	private JLabel lblShowPartidasGanadas;
 	private JLabel lblShowJuegosTotales;
+	private JLabel lblShowWinrate;
 
 	/**
 	 * Launch the application.
@@ -72,19 +73,39 @@ public class Perfil extends JFrame {
 			// TODO: handle exception
 		}
 		
-		String partidasTotales = "select count(*) as totales from partidas where jugadorO = ? or jugadorX = ?";
+		String partidasTotales = "exec partidasTotales ?";
 		
 		try {
 			//se Prepara el sql
 			pg = Conexion.getConnection().prepareStatement(partidasTotales);
 			pg.setString(1, conexion.Conexion.nombre);
-			pg.setString(2, conexion.Conexion.nombre);
 			//Se ejecuta el sql
 			rs = pg.executeQuery();
 			
 			while (rs.next()) {
 		        // Obtener los datos de cada columna
 		        lblShowJuegosTotales.setText(String.valueOf(rs.getInt("totales")));
+
+		        // Hacer algo con los datos obtenidos
+		        //System.out.println("columna1: " + columna1 + ", columna2: " + columna2 );
+		    }
+			//en este caso como no se necesita meterle datos, no se los ponemos
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		String winrate = "exec winrate ?";
+		
+		try {
+			//se Prepara el sql
+			pg = Conexion.getConnection().prepareStatement(winrate);
+			pg.setString(1, conexion.Conexion.nombre);
+			//Se ejecuta el sql
+			rs = pg.executeQuery();
+			
+			while (rs.next()) {
+		        // Obtener los datos de cada columna
+		        lblShowWinrate.setText(String.valueOf(rs.getInt("winrate"))+"%");
 
 		        // Hacer algo con los datos obtenidos
 		        //System.out.println("columna1: " + columna1 + ", columna2: " + columna2 );
@@ -175,6 +196,20 @@ public class Perfil extends JFrame {
 		lblShowNombre.setFont(new Font("Arial", Font.BOLD, 50));
 		lblShowNombre.setForeground(new Color(30, 144, 255));
 		
+		JLabel lblWinrate = new JLabel("Winrate");
+		lblWinrate.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblWinrate.setForeground(new Color(30, 144, 255));
+		lblWinrate.setFont(new Font("Arial", Font.BOLD, 25));
+		lblWinrate.setBounds(211, 113, 132, 30);
+		panel.add(lblWinrate);
+		
+		lblShowWinrate = new JLabel("25");
+		lblShowWinrate.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblShowWinrate.setForeground(new Color(30, 144, 255));
+		lblShowWinrate.setFont(new Font("Arial", Font.BOLD, 50));
+		lblShowWinrate.setBounds(211, 140, 132, 43);
+		panel.add(lblShowWinrate);
+		
 		JLabel lblPerfil = new JLabel("Perfil");
 		lblPerfil.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPerfil.setForeground(Color.WHITE);
@@ -194,6 +229,4 @@ public class Perfil extends JFrame {
         ponerDatosPerfil();
 		
 	}
-
-
 }

@@ -179,15 +179,20 @@ select nombre, partidasGanadas from jugadores
 Order by partidasGanadas DESC;
 end
 
-create procedure winrate
+alter procedure winrate
 @nombre varchar(50)
 as
 begin
-declare @partidasTotales int, @partidasGanadas int, @winrate int
-select @partidasTotales = (select COUNT(*) as totales from partidas where jugadorO = @nombre OR jugadorX = @nombre)
-select @partidasGanadas = (select COUNT(*) as ganadas from partidas where usuarioGanador = @nombre)
 
-select @winrate = (@partidasGanadas / @partidasTotales)*100
+declare @id int
+
+select @id = (select idJugador from jugadores where nombre = @nombre)
+
+declare @partidasTotales int, @partidasGanadas int, @winrate int
+select @partidasTotales = (select COUNT(*) as totales from partidas where jugadorO = @id OR jugadorX = @id)
+select @partidasGanadas = (select COUNT(*) as ganadas from partidas where usuarioGanador = @id)
+select @winrate = ((@partidasGanadas / @partidasTotales)*100)
+select @winrate as winrate
 
 end
 
@@ -197,20 +202,26 @@ create procedure crearPartida
 @jugadorX varchar(50),
 @jugadorGanador varchar(50)
 as begin
-insert into partidas values(@jugador0,@jugadorX,@jugadorGanador)
+
+declare @idO int, @idX int, @idGanador int
+select @idO = (select idJugador from jugadores where nombre = @jugador0)
+select @idX = (select idJugador from jugadores where nombre = @jugadorX)
+select @idGanador = (select idJugador from jugadores where nombre = @jugadorGanador)
+
+insert into partidas values(@idO,@idX,@idGanador)
 update jugadores
 set partidasGanadas = partidasGanadas+1
-where nombre = @jugadorGanador
+where idJugador = @idGanador
 end
 
 --SE CREA PROCESO QUE ENCUENTRA LAS PARTIDAS JUGADAS POR UN JUGADOR ESPECIFICO
 create procedure partidasTotales
 @nombre varchar(50)
-as begin
-declare @partidasTotales int
-select @partidasTotales = (select COUNT(*) as totales from partidas where jugadorO = @nombre or jugadorX = @nombre)
-
-select @partidasTotales as totales
+as
+begin
+declare @id int
+select @id = (select idJugador from jugadores where nombre = @nombre)
+select count(*) as totales from partidas where jugadorO = @id or jugadorX = @id
 end
 
 --INSERTS DE PRUEBA
@@ -229,37 +240,4 @@ VALUES ('papu', 'abc123', '1111111111', 0)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
 VALUES ('mamu', 'abc123', '1111111111', 0)
 
-delete from jugadores where nombre = 'a'
-
-update jugadores
-set nombre = 'Bry55'
-where nombre = 'Bryo'
-
-exec partidasTotales 'Bry555'
-
-select*from jugadores
-select*from partidas
-select*from bitacoraJugadores
-select*from bitacoraPartidas
-select count(*) as totales from partidas where jugadorO = 'mamu' or jugadorX = 'mamu'
-
-exec crearPartida 'papu', 'mamu', 'papu'
-
-exec updateNombre 'papu', 'papuedit'
-
-BEGIN TRANSACTION;
-
-update jugadores
-set nombre = 'papuedit'
-where nombre = 'papu';
-
-update partidas 
-set jugadorO = 'papuedit' 
-where jugadorO = 'papu';
-
-update partidas
-set jugadorX = 'papuedit' 
-where jugadorX = 'papu';
-
-COMMIT;
-update partidas set usuarioGanador = 'papuedit' where usuarioGanador = 'papu';
+exec winrate 'papu'
