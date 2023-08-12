@@ -201,7 +201,7 @@ select @winrate = (@partidasGanadas / @partidasTotales)*100
 end
 
 --SE CREA EL PROCESO ALMACENADO QUE REGISTRA LA PARTIDAS AUTOMATICAMENTE
-alter procedure crearPartida
+create procedure crearPartida
 @jugador0 varchar(50),
 @jugadorX varchar(50),
 @jugadorGanador varchar(50)
