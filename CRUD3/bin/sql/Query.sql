@@ -5,7 +5,8 @@ create database tresenraya
 --INTENTANDO HACER PULL DESDE GIT A SQL
 --SE CREA LA TABLA DE USUARIOS/JUGADORES EN ESTE PUEDES CAMBIAR EL NOMBRE A LO QUE QUIERASXD
 create table jugadores (
-nombre varchar(50) NOT NULL primary key,
+idJugador int identity primary key NOT NULL,
+nombre varchar(50) NOT NULL,
 contraseña varchar(50) NOT NULL, 
 telefono varchar(10) NOT NULL,
 partidasGanadas int NOT NULL,
@@ -14,20 +15,20 @@ partidasGanadas int NOT NULL,
 --SE CREA LA TABLA PARTIDAS
 create table partidas (
 idPartida int IDENTITY NOT NULL PRIMARY KEY,
-jugadorO varchar(50),
-jugadorX varchar(50),
+jugadorO int,
+jugadorX int,
 usuarioGanador varchar(50),
-foreign key (jugadorO) references jugadores(nombre),
-foreign key (jugadorX) references jugadores(nombre)
+foreign key (jugadorO) references jugadores(idJugador),
+foreign key (jugadorX) references jugadores(idJugador)
 )
 
 --SE CREA LA TABLA DE PREGUNTAS DE SEGURIDAD
 create table preguntasSeguridad (
 idPregunta int IDENTITY NOT NULL PRIMARY KEY,
-usuario varchar(50),
+usuario int,
 pregunta varchar(128),
 respuesta varchar(128),
-foreign key (usuario) referenes jugadores(nombre)
+foreign key (usuario) references jugadores(idJugador)
 )
 
 --SE CREA LA BITACORA DE USUARIOS
@@ -106,7 +107,7 @@ for insert
 as 
 begin
 declare @reg varchar(500)
-select @reg=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from inserted
+select @reg=concat(idJugador,'|',nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from inserted
 insert into bitacoraJugadores values(
 GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),null,@reg)
 end
@@ -118,7 +119,7 @@ for DELETE
 as 
 begin
 declare @reg varchar(500)
-select @reg=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from deleted
+select @reg=concat(idJugador,'|',nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from deleted
 insert into bitacoraJugadores values(
 GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,null)
 end
@@ -130,8 +131,8 @@ as
 begin
 declare @reg varchar(500)
 declare @regNuevo varchar(500)
-select @reg=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from deleted
-select @regNuevo=concat(nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from inserted
+select @reg=concat(idJugador,'|',nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from deleted
+select @regNuevo=concat(idJugador,'|',nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from inserted
 insert into bitacoraJugadores values(
 GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
 end
@@ -170,16 +171,6 @@ return;
 end
 end
 
---SE CREA EL PROCEDIMIENTO ALMACENADO QUE AUMENTA LAS PARTIDAS GANADAS Y SE LE ENVÍA DE VALOR EL NOMBRE JUGADOR GANADOR
-create procedure ganarPartida
-@nombre varchar(20)
-as
-begin
-update jugadores
-set partidasGanadas = partidasGanadas+1
-where nombre = @nombre
-end
-
 --SE CREA PROCEDIMIENTO ALMACENADO QUE MUESTRA EL LEADERBOARD
 create procedure mostrarLeaderboard
 as
@@ -200,7 +191,7 @@ select @winrate = (@partidasGanadas / @partidasTotales)*100
 
 end
 
---SE CREA EL PROCESO ALMACENADO QUE REGISTRA LA PARTIDAS AUTOMATICAMENTE
+--SE CREA EL PROCESO ALMACENADO QUE REGISTRA LA PARTIDAS AUTOMATICAMENTE Y AUMENTA LAS PARTIDAS GANADAS A LOS JUGADORES
 create procedure crearPartida
 @jugador0 varchar(50),
 @jugadorX varchar(50),
@@ -253,3 +244,22 @@ select*from bitacoraPartidas
 select count(*) as totales from partidas where jugadorO = 'mamu' or jugadorX = 'mamu'
 
 exec crearPartida 'papu', 'mamu', 'papu'
+
+exec updateNombre 'papu', 'papuedit'
+
+BEGIN TRANSACTION;
+
+update jugadores
+set nombre = 'papuedit'
+where nombre = 'papu';
+
+update partidas 
+set jugadorO = 'papuedit' 
+where jugadorO = 'papu';
+
+update partidas
+set jugadorX = 'papuedit' 
+where jugadorX = 'papu';
+
+COMMIT;
+update partidas set usuarioGanador = 'papuedit' where usuarioGanador = 'papu';
