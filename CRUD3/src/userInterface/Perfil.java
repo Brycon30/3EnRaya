@@ -46,8 +46,7 @@ public class Perfil extends JFrame {
 	
 	public void ponerDatosPerfil() {
 		//metodo que ejecuta el proceso desde sql para obtener los datos
-		//de los jugadores para ponerlos en la tabla leaderboard
-		//esto se hace mediante un procedimiento almacenado
+		//de los jugadores para ponerlos en la tabla de perfil
 		PreparedStatement ps = null;
 		PreparedStatement pg = null;
 		ResultSet rs = null;
@@ -72,6 +71,29 @@ public class Perfil extends JFrame {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		
+		String partidasTotales = "select count(*) as totales from partidas where jugadorO = ? or jugadorX = ?";
+		
+		try {
+			//se Prepara el sql
+			pg = Conexion.getConnection().prepareStatement(partidasTotales);
+			pg.setString(1, conexion.Conexion.nombre);
+			pg.setString(2, conexion.Conexion.nombre);
+			//Se ejecuta el sql
+			rs = pg.executeQuery();
+			
+			while (rs.next()) {
+		        // Obtener los datos de cada columna
+		        lblShowJuegosTotales.setText(String.valueOf(rs.getInt("totales")));
+
+		        // Hacer algo con los datos obtenidos
+		        //System.out.println("columna1: " + columna1 + ", columna2: " + columna2 );
+		    }
+			//en este caso como no se necesita meterle datos, no se los ponemos
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 
 	/**

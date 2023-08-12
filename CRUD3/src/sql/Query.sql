@@ -32,7 +32,7 @@ foreign key (usuario) referenes jugadores(nombre)
 
 --SE CREA LA BITACORA DE USUARIOS
 create table bitacoraJugadores (
-fecha datetime primary key,
+fecha datetime,
 usuario varchar(50),
 app varchar(200),
 host varchar(50),
@@ -41,7 +41,7 @@ registro_nuevo varchar(500)
 )
 
 create table bitacoraPartidas (
-fecha datetime primary key,
+fecha datetime,
 usuario varchar(50),
 app varchar(200),
 host varchar(50),
@@ -50,7 +50,7 @@ registro_nuevo varchar(500)
 )
 
 create table bitacoraPreguntas (
-fecha datetime primary key,
+fecha datetime,
 usuario varchar(200),
 app varchar(200),
 host varchar(50),
@@ -75,7 +75,7 @@ end
 --SE CREA TRIGGER PARA AGREGAR A LA BITACORA LOS DELETE DE LAS PARTIDAS
 create trigger deletePartidas
 on partidas
-for INSERT
+for DELETE
 as 
 begin
 declare @reg varchar(500)
@@ -88,12 +88,12 @@ end
 --SE CREA TRIGGER PARA AGREGAR A LA BITACORA LOS UPDATE DE LAS PARTIDAS
 create trigger updatePartidas
 on partidas
-for INSERT
+for UPDATE
 as 
 begin
 declare @reg varchar(500)
 declare @regNuevo varchar(500)
-select @reg=concat(idPartida,'|',jugadorO,'|',jugadorX,'|',usuarioGanador) from inserted
+select @reg=concat(idPartida,'|',jugadorO,'|',jugadorX,'|',usuarioGanador) from deleted
 select @regNuevo=concat(idPartida,'|',jugadorO,'|',jugadorX,'|',usuarioGanador) from inserted
 insert into bitacoraPartidas values(
 GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
@@ -201,15 +201,15 @@ select @winrate = (@partidasGanadas / @partidasTotales)*100
 end
 
 --SE CREA EL PROCESO ALMACENADO QUE REGISTRA LA PARTIDAS AUTOMATICAMENTE
-create procedure crearPartida
+alter procedure crearPartida
 @jugador0 varchar(50),
 @jugadorX varchar(50),
 @jugadorGanador varchar(50)
-update jugadores
-set partidasGanadas = partidasGanadas+1
-where nombre = @nombre
 as begin
 insert into partidas values(@jugador0,@jugadorX,@jugadorGanador)
+update jugadores
+set partidasGanadas = partidasGanadas+1
+where nombre = @jugadorGanador
 end
 
 --SE CREA PROCESO QUE ENCUENTRA LAS PARTIDAS JUGADAS POR UN JUGADOR ESPECIFICO
@@ -250,3 +250,6 @@ select*from jugadores
 select*from partidas
 select*from bitacoraJugadores
 select*from bitacoraPartidas
+select count(*) as totales from partidas where jugadorO = 'mamu' or jugadorX = 'mamu'
+
+exec crearPartida 'papu', 'mamu', 'papu'
