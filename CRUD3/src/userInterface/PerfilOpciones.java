@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -65,6 +67,7 @@ public class PerfilOpciones extends JFrame {
 			}
 			// SI PRESIONA EL BOTON ACTUALIZAR SE HARA LO SIGUIENTE
 			if (e.getSource().equals(btnActualizar)) {
+		
 				if (!(tfEditarNombreUsuario.getText().equals("Ingrese nuevo nickname"))) {
 					// SI LAS CONTRASEÑAS COINCIDEN SE DEBE ACTUALIZAR EL NOMBRE Y LA CONTRASEÑA DEL
 					// USUARIO EN SQL
@@ -72,6 +75,8 @@ public class PerfilOpciones extends JFrame {
 						// SI LA CONTRASEÑA NO SE CAMBIO ENTONCES AQUI DEBERIAS HACER QUE LA CONTRASEÑA
 						// DEL USUARIO NO SE ACTUALICE EN SQL
 						if (pfNuevaPassword.getText().equals("password")) {
+							//SE CREA LA SENTENCIA QUE SE EJECUTARA
+							
 						}
 						// SI LAS CONTRASEÑAS NO COINCIDEN SE MUESTRA EL MENSAJE DE QUE NO COINCIDEN
 					} else {
