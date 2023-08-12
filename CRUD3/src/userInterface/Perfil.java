@@ -105,9 +105,7 @@ public class Perfil extends JFrame {
 				PerfilOpciones po = new PerfilOpciones();
 				po.setVisible(true);
 				if (po.isVisible()) {
-					setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-				} else {
-					setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();
 				}
 			}
 		});
@@ -174,4 +172,6 @@ public class Perfil extends JFrame {
         ponerDatosPerfil();
 		
 	}
+
+
 }
