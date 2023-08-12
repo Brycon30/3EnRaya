@@ -32,10 +32,12 @@ public class PerfilOpciones extends JFrame {
 	private ManejadorActualizar manejadorAct = new ManejadorActualizar();
 	private JButton btnVolver;
 	private JButton btnActualizar;
+	private JLabel lblEditarPerfil;
 
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -55,7 +57,11 @@ public class PerfilOpciones extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			// SI SE PRESIONA EL BOTON VOLVER LA VENTANA SE CIERRA
 			if (e.getSource().equals(btnVolver)) {
-				((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();
+				Perfil p = new Perfil();
+				p.setVisible(true);
+				if (p.isVisible()){
+					((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();
+				}
 			}
 			// SI PRESIONA EL BOTON ACTUALIZAR SE HARA LO SIGUIENTE
 			if (e.getSource().equals(btnActualizar)) {
@@ -82,14 +88,21 @@ public class PerfilOpciones extends JFrame {
 	 * Create the frame.
 	 */
 	public PerfilOpciones() {
-
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 420);
+		setBounds(100, 100, 600, 536);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		lblEditarPerfil = new JLabel("Editar perfil");
+		lblEditarPerfil.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEditarPerfil.setForeground(Color.WHITE);
+		lblEditarPerfil.setFont(new Font("Arial", Font.BOLD, 54));
+		lblEditarPerfil.setBounds(10, 25, 564, 63);
+		contentPane.add(lblEditarPerfil);
 
 		tfEditarNombreUsuario = new JTextField();
 		tfEditarNombreUsuario.setText("Ingrese nuevo nickname");
@@ -97,7 +110,7 @@ public class PerfilOpciones extends JFrame {
 		tfEditarNombreUsuario.setForeground(Color.GRAY);
 		tfEditarNombreUsuario.setFont(new Font("Arial", Font.PLAIN, 25));
 		tfEditarNombreUsuario.setColumns(10);
-		tfEditarNombreUsuario.setBounds(61, 53, 311, 51);
+		tfEditarNombreUsuario.setBounds(140, 141, 311, 51);
 		contentPane.add(tfEditarNombreUsuario);
 
 		tfEditarNombreUsuario.addFocusListener(new FocusListener() {
@@ -124,7 +137,7 @@ public class PerfilOpciones extends JFrame {
 		lblNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNombreUsuario.setForeground(Color.WHITE);
 		lblNombreUsuario.setFont(new Font("Arial", Font.PLAIN, 25));
-		lblNombreUsuario.setBounds(0, 11, 434, 41);
+		lblNombreUsuario.setBounds(79, 99, 434, 41);
 		contentPane.add(lblNombreUsuario);
 
 		pfNuevaPassword = new JPasswordField();
@@ -133,7 +146,7 @@ public class PerfilOpciones extends JFrame {
 		pfNuevaPassword.setForeground(Color.GRAY);
 		pfNuevaPassword.setFont(new Font("Arial", Font.PLAIN, 25));
 		pfNuevaPassword.setColumns(10);
-		pfNuevaPassword.setBounds(61, 145, 311, 51);
+		pfNuevaPassword.setBounds(140, 233, 311, 51);
 		contentPane.add(pfNuevaPassword);
 
 		pfNuevaPassword.addFocusListener(new FocusListener() {
@@ -157,11 +170,11 @@ public class PerfilOpciones extends JFrame {
 
 		});
 
-		JLabel lblEditarContrasea = new JLabel("Editar password");
+		JLabel lblEditarContrasea = new JLabel("Editar password (opcional)");
 		lblEditarContrasea.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditarContrasea.setForeground(Color.WHITE);
 		lblEditarContrasea.setFont(new Font("Arial", Font.PLAIN, 25));
-		lblEditarContrasea.setBounds(0, 104, 434, 41);
+		lblEditarContrasea.setBounds(79, 192, 434, 41);
 		contentPane.add(lblEditarContrasea);
 
 		pfConfirmarPassword = new JPasswordField();
@@ -170,7 +183,7 @@ public class PerfilOpciones extends JFrame {
 		pfConfirmarPassword.setForeground(Color.GRAY);
 		pfConfirmarPassword.setFont(new Font("Arial", Font.PLAIN, 25));
 		pfConfirmarPassword.setColumns(10);
-		pfConfirmarPassword.setBounds(61, 238, 311, 51);
+		pfConfirmarPassword.setBounds(140, 326, 311, 51);
 		contentPane.add(pfConfirmarPassword);
 
 		pfConfirmarPassword.addFocusListener(new FocusListener() {
@@ -194,30 +207,30 @@ public class PerfilOpciones extends JFrame {
 
 		});
 
-		JLabel lblEditarPassword = new JLabel("Confirmar nueva password");
+		JLabel lblEditarPassword = new JLabel("Confirmar nueva password (opcional)");
 		lblEditarPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditarPassword.setForeground(Color.WHITE);
 		lblEditarPassword.setFont(new Font("Arial", Font.PLAIN, 25));
-		lblEditarPassword.setBounds(0, 197, 434, 41);
+		lblEditarPassword.setBounds(79, 285, 434, 41);
 		contentPane.add(lblEditarPassword);
 
 		btnVolver = new JButton("Volver");
 		btnVolver.setForeground(new Color(30, 144, 255));
 		btnVolver.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnVolver.setBackground(Color.WHITE);
-		btnVolver.setBounds(10, 319, 170, 51);
+		btnVolver.setBounds(10, 435, 203, 51);
 		contentPane.add(btnVolver);
 
 		btnActualizar = new JButton("Actualizar");
 		btnActualizar.setForeground(new Color(30, 144, 255));
 		btnActualizar.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnActualizar.setBackground(Color.WHITE);
-		btnActualizar.setBounds(254, 319, 170, 51);
+		btnActualizar.setBounds(371, 435, 203, 51);
 		contentPane.add(btnActualizar);
 
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(PerfilOpciones.class.getResource("/driver/fondoGeneral.png")));
-		label.setBounds(0, 0, 434, 379);
+		label.setBounds(0, 0, 584, 497);
 		contentPane.add(label);
 
 		btnVolver.addActionListener(manejadorAct);
