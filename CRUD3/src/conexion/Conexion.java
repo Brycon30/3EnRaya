@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public class Conexion {
 	public static String nombre = "";
+	public static int idJugador = 0;
 	
 	public static Connection getConnection() {
 		String conexionUrl = "jdbc:sqlserver://localhost:1433;"
