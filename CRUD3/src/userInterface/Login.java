@@ -69,6 +69,10 @@ public class Login extends JFrame {
 				//se verifica que el usuario y password sean los de algun usuario registrado en la base de datos
 				if (iniciarSecion(tfNombreUsuario.getText())) {
 					Conexion.nombre = tfNombreUsuario.getText();
+					
+					//aqui devemos poner un metodo que guarde el id en conexion.id
+					getId(tfNombreUsuario.getText());
+					
 					MenuInicio m = new MenuInicio();
 					m.setVisible(true);
 					((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();// cerramos la pantalla actual
@@ -79,6 +83,30 @@ public class Login extends JFrame {
 
 		}
 	}
+	
+	private void getId(String nombreJugador) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select idJugador from jugadores where nombre = ?";
+		
+		try {
+			//se Prepara el sql
+			ps = Conexion.getConnection().prepareStatement(sql);
+			ps.setString(1, nombreJugador);
+			//Se ejecuta el sql
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+		        // Obtener los datos de cada columna
+				conexion.Conexion.idJugador = rs.getInt("idJugador");
+				
+		        // Hacer algo con los datos obtenidos
+		    }
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		System.out.println(conexion.Conexion.idJugador);
+	}
 
 	private boolean iniciarSecion(String usuario) {
 		PreparedStatement sentencia = null;
@@ -87,7 +115,7 @@ public class Login extends JFrame {
 		// la sentencia sql
 		String sql = "select contrase\u00f1a from jugadores where nombre = ?";
 		try {
-			// aqui se hace la coneccion y se reciven los datos que regresa el select
+			// aqui se hace la conexion y se reciven los datos que regresa el select
 			sentencia = Conexion.getConnection().prepareStatement(sql);
 			sentencia.setString(1, usuario);
 
