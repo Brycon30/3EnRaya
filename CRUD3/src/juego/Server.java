@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
@@ -24,6 +25,8 @@ public class Server {
 	public static void main(String[] args) {
 		int puerto = 1233; // Puerto en el que escuchará el servidor
 
+		System.out.println(clientes.size());
+		
 		try {
 			ServerSocket servidor = new ServerSocket(puerto);
 			System.out.println("Servidor iniciado. Esperando conexiones...");
@@ -43,6 +46,8 @@ public class Server {
 					String nombreCliente = new String(nombreBytes, 0, bytesRead);
 
 					clientes.put(nombreCliente, cliente);
+					
+					System.out.println(clientes.size());
 
 					System.out.println("Usuario: " + nombreCliente);
 
@@ -142,6 +147,9 @@ public class Server {
 			}
 			if (mensajeA.equals("Gane")) {
 				// 0=x
+				
+				System.out.println(clientes.size());
+				
 				String ganador = null;
 
 				String usuarioX = (String) clientes.keySet().toArray()[0];
@@ -175,7 +183,8 @@ public class Server {
 
 					if (sentencia.executeUpdate() > 0) {
 						// si se hace el insert muestra este mensaje
-						JOptionPane.showMessageDialog(null, "Se ha registrado Exitosamente", "InformaciÃ³n",
+						clientes.clear();
+						JOptionPane.showMessageDialog(null, "Se ha registrado Exitosamente" + clientes, "InformaciÃ³n",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
 

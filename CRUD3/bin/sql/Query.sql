@@ -17,7 +17,7 @@ create table partidas (
 idPartida int IDENTITY NOT NULL PRIMARY KEY,
 jugadorO int,
 jugadorX int,
-usuarioGanador varchar(50),
+usuarioGanador int,
 foreign key (jugadorO) references jugadores(idJugador),
 foreign key (jugadorX) references jugadores(idJugador)
 )
@@ -188,10 +188,14 @@ declare @id int
 
 select @id = (select idJugador from jugadores where nombre = @nombre)
 
-declare @partidasTotales int, @partidasGanadas int, @winrate int
+declare @partidasTotales int, @partidasGanadas int, @winrate DECIMAL(5,2)
 select @partidasTotales = (select COUNT(*) as totales from partidas where jugadorO = @id OR jugadorX = @id)
 select @partidasGanadas = (select COUNT(*) as ganadas from partidas where usuarioGanador = @id)
-select @winrate = ((@partidasGanadas / @partidasTotales)*100)
+IF @partidasTotales = 0
+	SET @winrate = 0
+ELSE
+	select @winrate = (CONVERT(DECIMAL(5, 2), @partidasGanadas) / @partidasTotales) * 100
+
 select @winrate as winrate
 
 end
@@ -240,4 +244,5 @@ VALUES ('papu', 'abc123', '1111111111', 0)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
 VALUES ('mamu', 'abc123', '1111111111', 0)
 
+select*from partidas
 exec winrate 'papu'
