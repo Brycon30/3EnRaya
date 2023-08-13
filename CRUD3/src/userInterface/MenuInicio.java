@@ -108,48 +108,46 @@ public class MenuInicio extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblTresEnRaya = new JLabel("TRES EN RAYA");
-		lblTresEnRaya.setForeground(Color.WHITE);
-		lblTresEnRaya.setFont(new Font("Arial", Font.BOLD, 54));
-		lblTresEnRaya.setBounds(91, 11, 396, 89);
-		contentPane.add(lblTresEnRaya);
-
 		btnJugar = new JButton("Jugar");
 		btnJugar.setBackground(Color.WHITE);
 		btnJugar.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnJugar.setForeground(new Color(30, 144, 255));
-		btnJugar.setBounds(170, 175, 234, 51);
+		btnJugar.setBounds(10, 216, 223, 51);
 		contentPane.add(btnJugar);
 
 		btnPerfil = new JButton("Perfil");
 		btnPerfil.setBackground(Color.WHITE);
 		btnPerfil.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnPerfil.setForeground(new Color(30, 144, 255));
-		btnPerfil.setBounds(170, 237, 234, 51);
+		btnPerfil.setBounds(10, 278, 223, 51);
 		contentPane.add(btnPerfil);
 
 		btnLeaderboard = new JButton("Leaderboard");
 		btnLeaderboard.setBackground(Color.WHITE);
 		btnLeaderboard.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnLeaderboard.setForeground(new Color(30, 144, 255));
-		btnLeaderboard.setBounds(170, 299, 234, 51);
+		btnLeaderboard.setBounds(10, 340, 223, 51);
 		contentPane.add(btnLeaderboard);
 
 		btnSalir = new JButton("Salir");
 		btnSalir.setBackground(Color.WHITE);
 		btnSalir.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnSalir.setForeground(new Color(30, 144, 255));
-		btnSalir.setBounds(170, 361, 234, 51);
+		btnSalir.setBounds(10, 402, 223, 51);
 		contentPane.add(btnSalir);
-		
-		JLabel backgroundLabel = new JLabel();
-        backgroundLabel.setBounds(0, 0, 584, 497);
         ImageIcon backgroundIcon = new ImageIcon("src\\driver\\fondoGeneral.png");
         Image backgroundImg = backgroundIcon.getImage();
+        
+        JLabel backgroundLabel = new JLabel();
+        backgroundLabel.setBounds(0, 0, 584, 497);
         Image scaledImg = backgroundImg.getScaledInstance(backgroundLabel.getWidth(), backgroundLabel.getHeight(), Image.SCALE_SMOOTH);
-        backgroundLabel.setIcon(new ImageIcon(scaledImg));
-
-        contentPane.add(backgroundLabel, BorderLayout.CENTER);
+        backgroundLabel.setIcon(new ImageIcon(MenuInicio.class.getResource("/driver/menuInicio.png")));
+        
+                contentPane.add(backgroundLabel, BorderLayout.CENTER);
+                
+                JLabel lblNewLabel = new JLabel("");
+                lblNewLabel.setBounds(249, 223, 330, 220);
+                contentPane.add(lblNewLabel);
 
 		ponerEscuchadores();
 	}
