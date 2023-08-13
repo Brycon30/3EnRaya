@@ -153,28 +153,21 @@ public class Server {
 				String ganador = null;
 
 				String usuarioX = (String) clientes.keySet().toArray()[0];
-				Socket nombreX = clientes.get(usuarioX);
-				String strNombreX = String.valueOf(nombreX);
-				System.out.println(usuarioX+nombreX+strNombreX);
+				//Socket nombreX = clientes.get(usuarioX);
 
 				String usuarioO = (String) clientes.keySet().toArray()[1];
-				Socket nombreO = clientes.get(usuarioO);
-				String strNombreO = String.valueOf(nombreO);
-				System.out.println(strNombreO+strNombreX+ganador);
+				//Socket nombreO = clientes.get(usuarioO);
 
 				if (usuarioX.equals(remitente)) {
 					ganador = usuarioX;
-					System.out.println(strNombreO+strNombreX+ganador);
 				} else {
 					ganador = usuarioO;
-					System.out.println(strNombreO+strNombreX+ganador);
 				}
-				System.out.println(strNombreO+strNombreX+ganador);
 
 				PreparedStatement sentencia = null;
 				// \u00f1 es la letra n con ceja
 				// se prepara el codigo sql para ingresar datos
-				String sql = "exec crearPartida ?,?,? ";
+				String sql = "exec crearPartida ?,?,?";
 				try {// preparedStatement es para ingresar datos
 					sentencia = Conexion.getConnection().prepareStatement(sql);
 					sentencia.setString(1, usuarioX);
