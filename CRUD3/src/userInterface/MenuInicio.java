@@ -145,9 +145,10 @@ public class MenuInicio extends JFrame {
         
                 contentPane.add(backgroundLabel, BorderLayout.CENTER);
                 
-                JLabel lblNewLabel = new JLabel("");
-                lblNewLabel.setBounds(249, 223, 330, 220);
-                contentPane.add(lblNewLabel);
+                JLabel lblGif = new JLabel("");
+                lblGif.setIcon(new ImageIcon(MenuInicio.class.getResource("/driver/X2.gif")));
+                lblGif.setBounds(249, 223, 330, 220);
+                contentPane.add(lblGif);
 
 		ponerEscuchadores();
 	}
