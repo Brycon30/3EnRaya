@@ -191,7 +191,7 @@ public class Perfil extends JFrame {
 		lblPartidasGanadas.setFont(new Font("Arial", Font.BOLD, 25));
 		
 		lblShowNombre = new JLabel("baca777");
-		lblShowNombre.setBounds(0, 0, 210, 52);
+		lblShowNombre.setBounds(0, 0, 343, 52);
 		panel.add(lblShowNombre);
 		lblShowNombre.setFont(new Font("Arial", Font.BOLD, 50));
 		lblShowNombre.setForeground(new Color(30, 144, 255));

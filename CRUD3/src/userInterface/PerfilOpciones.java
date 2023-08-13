@@ -18,6 +18,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -30,7 +31,6 @@ public class PerfilOpciones extends JFrame {
 	private JPanel contentPane;
 	private JTextField tfEditarNombreUsuario;
 	private JPasswordField pfNuevaPassword;
-	private JPasswordField pfConfirmarPassword;
 	private ManejadorActualizar manejadorAct = new ManejadorActualizar();
 	private JButton btnVolver;
 	private JButton btnActualizar;
@@ -39,7 +39,7 @@ public class PerfilOpciones extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -61,29 +61,48 @@ public class PerfilOpciones extends JFrame {
 			if (e.getSource().equals(btnVolver)) {
 				Perfil p = new Perfil();
 				p.setVisible(true);
-				if (p.isVisible()){
+				if (p.isVisible()) {
 					((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();
 				}
 			}
 			// SI PRESIONA EL BOTON ACTUALIZAR SE HARA LO SIGUIENTE
 			if (e.getSource().equals(btnActualizar)) {
-		
+
 				if (!(tfEditarNombreUsuario.getText().equals("Ingrese nuevo nickname"))) {
-					// SI LAS CONTRASEÑAS COINCIDEN SE DEBE ACTUALIZAR EL NOMBRE Y LA CONTRASEÑA DEL
-					// USUARIO EN SQL
-					if (pfNuevaPassword.getText().equals(pfConfirmarPassword.getText())) {
-						// SI LA CONTRASEÑA NO SE CAMBIO ENTONCES AQUI DEBERIAS HACER QUE LA CONTRASEÑA
-						// DEL USUARIO NO SE ACTUALICE EN SQL
-						if (pfNuevaPassword.getText().equals("password")) {
-							//SE CREA LA SENTENCIA QUE SE EJECUTARA
-							
-						}
-						// SI LAS CONTRASEÑAS NO COINCIDEN SE MUESTRA EL MENSAJE DE QUE NO COINCIDEN
+					if (tfEditarNombreUsuario.getText().length() > 10) {
+						JOptionPane.showMessageDialog(null, "El nombre no puede contener mas de 10 caracteres");
+					} else if (tfEditarNombreUsuario.getText().length() < 4) {
+						JOptionPane.showMessageDialog(null, "El nombre debe de tener almenos 4 caracteres");
 					} else {
-						JOptionPane.showMessageDialog(null, "Las contrase\u00f1as no coinciden");
+						System.out.println("Se logra entrar");
+						String tryPass = null;
+						tryPass = obtenerPassword(tryPass);
+						System.out.println(tryPass);
+						if (pfNuevaPassword.getText().equals(tryPass)) {
+							PreparedStatement sentencia = null;
+							boolean rs = false;
+							String sql = "update jugadores set nombre = ? where nombre = ?";
+							String nombreAnterior = Conexion.nombre;
+
+							try {
+								sentencia = Conexion.getConnection().prepareStatement(sql);
+								sentencia.setString(1, tfEditarNombreUsuario.getText());
+								sentencia.setString(2, nombreAnterior);
+								rs = sentencia.execute();
+								sentencia.close();
+								Conexion.nombre = tfEditarNombreUsuario.getText();
+								JOptionPane.showMessageDialog(null, "Usuario actualizado correctamente");
+							} catch (Exception e2) {
+								// TODO: handle exception
+								System.err.print("Error de SQL: " + e2.getMessage());
+								e2.printStackTrace();
+								Conexion.nombre = nombreAnterior;
+								JOptionPane.showMessageDialog(null, "El usuario ya existe");
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "Password incorrecto");
+						}
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "No se ingreso un nombre de usuario valido");
 				}
 			}
 		}
@@ -92,8 +111,51 @@ public class PerfilOpciones extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+
+	private String obtenerPassword(String passValor) {
+		PreparedStatement sentencia = null;
+		String password = null;
+
+		// la sentencia sql
+		String sql = "select contrase\u00f1a from jugadores where nombre = ?";
+		try {
+			// aqui se hace la coneccion y se reciven los datos que regresa el select
+			sentencia = Conexion.getConnection().prepareStatement(sql);
+			sentencia.setString(1, conexion.Conexion.nombre);
+
+			ResultSet resultado = sentencia.executeQuery();// se ejecuta
+
+			// si hay un registro este se podra usar, en dado caso de que no , no se harea
+			// nada
+			if (resultado.next()) {
+
+				// Mover el cursor al primer registro
+				password = resultado.getString("contrase\u00f1a");
+
+			}
+			resultado.close();
+			sentencia.close();
+
+		} catch (SQLException e) {
+			System.err.print("Error de SQL: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				if (sentencia != null) {
+					sentencia.close();
+				}
+			} catch (SQLException e) {
+				System.err.print("Error al cerrar la sentencia: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		return password;
+
+	}
+
 	public PerfilOpciones() {
-		
+
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 536);
 		contentPane = new JPanel();
@@ -101,7 +163,7 @@ public class PerfilOpciones extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		lblEditarPerfil = new JLabel("Editar perfil");
 		lblEditarPerfil.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditarPerfil.setForeground(Color.WHITE);
@@ -175,49 +237,12 @@ public class PerfilOpciones extends JFrame {
 
 		});
 
-		JLabel lblEditarContrasea = new JLabel("Editar password (opcional)");
+		JLabel lblEditarContrasea = new JLabel("Ingrese su password");
 		lblEditarContrasea.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditarContrasea.setForeground(Color.WHITE);
 		lblEditarContrasea.setFont(new Font("Arial", Font.PLAIN, 25));
 		lblEditarContrasea.setBounds(79, 192, 434, 41);
 		contentPane.add(lblEditarContrasea);
-
-		pfConfirmarPassword = new JPasswordField();
-		pfConfirmarPassword.setText("password");
-		pfConfirmarPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		pfConfirmarPassword.setForeground(Color.GRAY);
-		pfConfirmarPassword.setFont(new Font("Arial", Font.PLAIN, 25));
-		pfConfirmarPassword.setColumns(10);
-		pfConfirmarPassword.setBounds(140, 326, 311, 51);
-		contentPane.add(pfConfirmarPassword);
-
-		pfConfirmarPassword.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				// Limpiar el texto de ejemplo cuando se obtiene el foco
-				if (pfConfirmarPassword.getText().equals("password")) {
-					pfConfirmarPassword.setText("");
-					pfConfirmarPassword.setForeground(new Color(30, 144, 255));
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				// Restaurar el texto de ejemplo si no se ingresó ningún texto
-				if (pfConfirmarPassword.getText().isEmpty()) {
-					pfConfirmarPassword.setForeground(Color.GRAY);
-					pfConfirmarPassword.setText("password");
-				}
-			}
-
-		});
-
-		JLabel lblEditarPassword = new JLabel("Confirmar nueva password (opcional)");
-		lblEditarPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEditarPassword.setForeground(Color.WHITE);
-		lblEditarPassword.setFont(new Font("Arial", Font.PLAIN, 25));
-		lblEditarPassword.setBounds(79, 285, 434, 41);
-		contentPane.add(lblEditarPassword);
 
 		btnVolver = new JButton("Volver");
 		btnVolver.setForeground(new Color(30, 144, 255));
@@ -240,6 +265,6 @@ public class PerfilOpciones extends JFrame {
 
 		btnVolver.addActionListener(manejadorAct);
 		btnActualizar.addActionListener(manejadorAct);
-	}
 
+	}
 }

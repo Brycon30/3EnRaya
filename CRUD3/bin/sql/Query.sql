@@ -155,20 +155,34 @@ END
 end
 
 --SE CREA EL TRIGGER QUE EVITA QUE SE CAMBIE EL NOMBRE DE UN JUGADOR
-create trigger verificarUpdateUsuario
+alter trigger verificarUpdateUsuario
 ON jugadores
-for update
+instead of update
 as
 begin
 declare @nombreDel varchar(50), @nombreIns varchar(50)
 select @nombreDel = nombre from deleted
 select @nombreIns = nombre from inserted
-if (@nombreDel <> @nombreIns)
-begin
-rollback
-raiserror('No se puede actualizar el nombre',16,1)
-return;
-end
+IF UPDATE(nombre)
+	IF EXISTS (select 1 from jugadores where nombre = @nombreIns)
+		begin
+		print 'se encontró usuario que se llama igual'
+		rollback
+		raiserror('No se puede actualizar el nombre',16,1)
+		return;
+		end
+	else
+		begin
+		update jugadores
+		set nombre = @nombreIns
+		where nombre = @nombreDel
+	end
+else
+	begin
+	update jugadores
+	set partidasGanadas = partidasGanadas+1
+	where nombre = @nombreIns
+	end
 end
 
 --SE CREA PROCEDIMIENTO ALMACENADO QUE MUESTRA EL LEADERBOARD
@@ -179,7 +193,7 @@ select nombre, partidasGanadas from jugadores
 Order by partidasGanadas DESC;
 end
 
-alter procedure winrate
+create procedure winrate
 @nombre varchar(50)
 as
 begin
@@ -213,9 +227,11 @@ select @idX = (select idJugador from jugadores where nombre = @jugadorX)
 select @idGanador = (select idJugador from jugadores where nombre = @jugadorGanador)
 
 insert into partidas values(@idO,@idX,@idGanador)
+
 update jugadores
 set partidasGanadas = partidasGanadas+1
 where idJugador = @idGanador
+
 end
 
 --SE CREA PROCESO QUE ENCUENTRA LAS PARTIDAS JUGADAS POR UN JUGADOR ESPECIFICO
@@ -242,7 +258,19 @@ VALUES ('Luis', 'abc123', '1111111111', 0)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
 VALUES ('papu', 'abc123', '1111111111', 0)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
-VALUES ('mamu', 'abc123', '1111111111', 0)
+VALUES ('tongo', 'abc123', '1111111111', 0)
 
 select*from partidas
+select*from jugadores
+
+exec crearPartida 'tongo','papu','tongo'
+
+update jugadores
+set partidasGanadas =
+where nombre = 'tongo'
+
+update jugadores
+set nombre = 'tongoedit'
+where nombre = 'tongo'
+
 exec winrate 'papu'
