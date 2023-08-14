@@ -41,6 +41,7 @@ public class PerfilOpciones extends JFrame {
 	private JButton btnActualizar;
 	private JLabel lblEditarPerfil;
 	private JFormattedTextField tfTelefonoUpdate;
+	public static String nuevaPassword = "";
 
 	/**
 	 * Launch the application.
@@ -73,21 +74,25 @@ public class PerfilOpciones extends JFrame {
 			}
 			// SI PRESIONA EL BOTON ACTUALIZAR SE HARA LO SIGUIENTE
 			if (e.getSource().equals(btnActualizar)) {
-				
 
 				if (!(tfEditarNombreUsuario.getText().equals("Ingrese nuevo nickname"))) {
 					if (tfEditarNombreUsuario.getText().length() > 10) {
 						JOptionPane.showMessageDialog(null, "El nombre no puede contener mas de 10 caracteres");
 					} else if (tfEditarNombreUsuario.getText().length() < 4) {
 						JOptionPane.showMessageDialog(null, "El nombre debe de tener almenos 4 caracteres");
-					} else if (!(regexPassword(pfNuevaPassword.getText()))) {
-						JOptionPane.showMessageDialog(null, "La password no es valida");
-					} else if (tfTelefonoUpdate.getText().contains(" ")) {
+					}
+					if (!(pfNuevaPassword.getText().equals("password"))) {
+						if (!(regexPassword(pfNuevaPassword.getText()))) {
+							JOptionPane.showMessageDialog(null, "La password no es valida");
+						}
+					}
+					else if (tfTelefonoUpdate.getText().contains(" ")) {
 						JOptionPane.showMessageDialog(null, "El numero de telefono no es valido");
 					} else {
 						confirmarUpdateUsuario cup = new confirmarUpdateUsuario();
 						cup.setVisible(true);
 						if (cup.isVisible()) {
+							nuevaPassword = pfNuevaPassword.getText();
 							((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();
 						}
 					}
@@ -97,19 +102,19 @@ public class PerfilOpciones extends JFrame {
 			}
 		}
 	}
-	
+
 	public boolean regexPassword(String password) {
-		 // Definir la expresión regular para la validación de la contraseña
+		// Definir la expresión regular para la validación de la contraseña
 		String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%!(),.*&?])[A-Za-z\\d@#$%!(),.*&?]{8,}$";
 
-       // Compilar la expresión regular en un objeto Pattern
-       Pattern pattern = Pattern.compile(regex);
+		// Compilar la expresión regular en un objeto Pattern
+		Pattern pattern = Pattern.compile(regex);
 
-       // Crear un objeto Matcher con la contraseña ingresada
-       Matcher matcher = pattern.matcher(password);
+		// Crear un objeto Matcher con la contraseña ingresada
+		Matcher matcher = pattern.matcher(password);
 
-       // Verificar si la contraseña cumple con el patrón definido
-       return matcher.matches();
+		// Verificar si la contraseña cumple con el patrón definido
+		return matcher.matches();
 	}
 
 	/**
@@ -168,14 +173,14 @@ public class PerfilOpciones extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblTelefono = new JLabel("Telefono");
 		lblTelefono.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTelefono.setForeground(Color.WHITE);
 		lblTelefono.setFont(new Font("Arial", Font.PLAIN, 25));
 		lblTelefono.setBounds(79, 284, 434, 31);
 		contentPane.add(lblTelefono);
-		
+
 		MaskFormatter telefono = null;
 		try {
 			telefono = new MaskFormatter("##########");
@@ -183,7 +188,7 @@ public class PerfilOpciones extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		tfTelefonoUpdate = new JFormattedTextField(telefono);
 		tfTelefonoUpdate.setHorizontalAlignment(SwingConstants.CENTER);
 		tfTelefonoUpdate.setForeground(new Color(30, 144, 255));
