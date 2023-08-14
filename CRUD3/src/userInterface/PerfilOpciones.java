@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import conexion.Conexion;
 
@@ -19,12 +20,14 @@ import java.awt.event.FocusListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
+import javax.swing.JFormattedTextField;
 
 public class PerfilOpciones extends JFrame {
 
@@ -164,6 +167,29 @@ public class PerfilOpciones extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JLabel lblTelefono = new JLabel("Telefono");
+		lblTelefono.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTelefono.setForeground(Color.WHITE);
+		lblTelefono.setFont(new Font("Arial", Font.PLAIN, 25));
+		lblTelefono.setBounds(79, 284, 434, 31);
+		contentPane.add(lblTelefono);
+		
+		MaskFormatter telefono = null;
+		try {
+			telefono = new MaskFormatter("##########");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		JFormattedTextField tfTelefonoUpdate = new JFormattedTextField(telefono);
+		tfTelefonoUpdate.setHorizontalAlignment(SwingConstants.CENTER);
+		tfTelefonoUpdate.setForeground(new Color(30, 144, 255));
+		tfTelefonoUpdate.setFont(new Font("Arial", Font.PLAIN, 25));
+		tfTelefonoUpdate.setColumns(10);
+		tfTelefonoUpdate.setBounds(140, 315, 311, 45);
+		contentPane.add(tfTelefonoUpdate);
 
 		lblEditarPerfil = new JLabel("Editar perfil");
 		lblEditarPerfil.setHorizontalAlignment(SwingConstants.CENTER);
@@ -238,7 +264,7 @@ public class PerfilOpciones extends JFrame {
 
 		});
 
-		JLabel lblEditarContrasea = new JLabel("Ingrese su password");
+		JLabel lblEditarContrasea = new JLabel("Ingrese nueva password");
 		lblEditarContrasea.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditarContrasea.setForeground(Color.WHITE);
 		lblEditarContrasea.setFont(new Font("Arial", Font.PLAIN, 25));

@@ -155,7 +155,7 @@ END
 end
 
 --SE CREA EL TRIGGER QUE EVITA QUE SE CAMBIE EL NOMBRE DE UN JUGADOR
-alter trigger verificarUpdateUsuario
+create trigger verificarUpdateUsuario
 ON jugadores
 instead of update
 as
