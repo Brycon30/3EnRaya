@@ -43,6 +43,7 @@ public class ResultadoPartida extends JFrame {
 	// mediante el string del constructor se pone un mensaje en esta pantalla
 	//asi se puede hacer la logica desde el juego mucho mas sencillo
 	public ResultadoPartida(String resultado) {
+		setTitle("Resultado");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 536);

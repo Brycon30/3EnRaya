@@ -99,6 +99,7 @@ public class MenuInicio extends JFrame {
 	}
 
 	public MenuInicio() {
+		setTitle(conexion.Conexion.nombre + " - Menu de inicio");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 536);

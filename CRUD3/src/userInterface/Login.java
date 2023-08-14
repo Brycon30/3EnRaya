@@ -161,6 +161,7 @@ public class Login extends JFrame {
 	}
 
 	public Login() {
+		setTitle("Login");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 536);
