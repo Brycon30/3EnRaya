@@ -155,7 +155,7 @@ public class PerfilOpciones extends JFrame {
 	}
 
 	public PerfilOpciones() {
-
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 536);
 		contentPane = new JPanel();

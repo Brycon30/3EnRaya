@@ -79,6 +79,7 @@ public class Inicio extends JFrame {
 	 * Create the frame.
 	 */
 	public Inicio() {
+		setResizable(false);
 		this.setVisible(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 536);
