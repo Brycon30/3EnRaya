@@ -86,7 +86,7 @@ public class PerfilOpciones extends JFrame {
 							JOptionPane.showMessageDialog(null, "La password no es valida");
 						}
 					}
-					else if (tfTelefonoUpdate.getText().contains(" ")) {
+					if (tfTelefonoUpdate.getText().contains(" ")) {
 						JOptionPane.showMessageDialog(null, "El numero de telefono no es valido");
 					} else {
 						confirmarUpdateUsuario cup = new confirmarUpdateUsuario();
