@@ -155,7 +155,7 @@ END
 end
 
 --SE CREA EL TRIGGER QUE EVITA QUE SE CAMBIE EL NOMBRE DE UN JUGADOR
-alter trigger verificarUpdateUsuario
+create trigger verificarUpdateUsuario
 ON jugadores
 instead of update
 as
@@ -246,9 +246,9 @@ end
 
 --INSERTS DE PRUEBA
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
-VALUES ('Juan', '123456', '1234567890', 3)
+VALUES ('Bryo', '123', '1234567890', 0)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
-VALUES ('María', 'abcdef', '9876543210', 5)
+VALUES ('papu', '123', '9876543210', 0)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
 VALUES ('Pedro', 'qwerty', '5555555555', 1)
 INSERT INTO jugadores (nombre, contraseña, telefono, partidasGanadas)
@@ -274,3 +274,7 @@ set nombre = 'tongoedit'
 where nombre = 'tongo'
 
 exec winrate 'papu'
+
+select idJugador from jugadores where nombre = 'Bryo'
+
+insert into partidas
