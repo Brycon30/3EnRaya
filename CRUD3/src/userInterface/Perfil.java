@@ -166,7 +166,7 @@ public class Perfil extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		lblShowJuegosTotales = new JLabel("25");
+		lblShowJuegosTotales = new JLabel("0");
 		lblShowJuegosTotales.setBounds(0, 140, 210, 43);
 		panel.add(lblShowJuegosTotales);
 		lblShowJuegosTotales.setForeground(new Color(30, 144, 255));
@@ -178,7 +178,7 @@ public class Perfil extends JFrame {
 		lblPartidasTotales.setForeground(new Color(30, 144, 255));
 		lblPartidasTotales.setFont(new Font("Arial", Font.BOLD, 25));
 		
-		lblShowPartidasGanadas = new JLabel("15");
+		lblShowPartidasGanadas = new JLabel("0");
 		lblShowPartidasGanadas.setBounds(0, 73, 210, 43);
 		panel.add(lblShowPartidasGanadas);
 		lblShowPartidasGanadas.setForeground(new Color(30, 144, 255));
@@ -190,7 +190,7 @@ public class Perfil extends JFrame {
 		lblPartidasGanadas.setForeground(new Color(30, 144, 255));
 		lblPartidasGanadas.setFont(new Font("Arial", Font.BOLD, 25));
 		
-		lblShowNombre = new JLabel("baca777");
+		lblShowNombre = new JLabel("Usuario");
 		lblShowNombre.setBounds(0, 0, 343, 52);
 		panel.add(lblShowNombre);
 		lblShowNombre.setFont(new Font("Arial", Font.BOLD, 50));
@@ -203,7 +203,7 @@ public class Perfil extends JFrame {
 		lblWinrate.setBounds(211, 113, 132, 30);
 		panel.add(lblWinrate);
 		
-		lblShowWinrate = new JLabel("25");
+		lblShowWinrate = new JLabel("0%");
 		lblShowWinrate.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblShowWinrate.setForeground(new Color(30, 144, 255));
 		lblShowWinrate.setFont(new Font("Arial", Font.BOLD, 50));
