@@ -62,6 +62,7 @@ public class lilCat extends JFrame {
 	 * Create the frame.
 	 */
 	public lilCat() {
+		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBounds(100, 100, 326, 426);
 		

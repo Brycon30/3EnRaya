@@ -160,9 +160,11 @@ ON jugadores
 instead of update
 as
 begin
-declare @nombreDel varchar(50), @nombreIns varchar(50)
+declare @nombreDel varchar(50), @nombreIns varchar(50), @id int, @passwordIns varchar(50)
 select @nombreDel = nombre from deleted
 select @nombreIns = nombre from inserted
+select @passwordIns = contraseña from inserted
+select @id = idJugador from inserted
 IF UPDATE(nombre)
 	IF EXISTS (select 1 from jugadores where nombre = @nombreIns)
 		begin
@@ -177,11 +179,17 @@ IF UPDATE(nombre)
 		set nombre = @nombreIns
 		where nombre = @nombreDel
 	end
-else
+else if UPDATE(partidasGanadas)
 	begin
 	update jugadores
 	set partidasGanadas = partidasGanadas+1
 	where nombre = @nombreIns
+	end
+else if UPDATE(contraseña)
+	begin
+	update jugadores
+	set contraseña = @passwordIns
+	where idJugador = @id
 	end
 end
 
@@ -265,12 +273,9 @@ select*from jugadores
 
 exec crearPartida 'tongo','papu','tongo'
 
-update jugadores
-set partidasGanadas =
-where nombre = 'tongo'
 
 update jugadores
-set nombre = 'tongoedit'
+set contraseña = 'pruebaupdate'
 where nombre = 'tongo'
 
 exec winrate 'papu'

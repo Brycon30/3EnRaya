@@ -79,6 +79,8 @@ public class Leaderboard extends JFrame {
 	}
 
 	public Leaderboard() {
+		setTitle("Leaderboard");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 536);
 		contentPane = new JPanel();
