@@ -312,6 +312,7 @@ public class Login extends JFrame {
 		//pone escuchadores en los botones
 		ponerEscuchador();
 		
+		
 		//Pone el escuchador del teclado para comprobar que se pulso el intro
 		setupEnterKeyForLogin();
 		
