@@ -20,6 +20,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import conexion.Conexion;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Perfil extends JFrame {
 
@@ -154,6 +156,20 @@ public class Perfil extends JFrame {
 				}
 			}
 		});
+		
+		JButton btnOpcionesDeRecuperacion = new JButton("Opciones de recuperacion");
+		btnOpcionesDeRecuperacion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				
+			}
+		});
+		btnOpcionesDeRecuperacion.setForeground(new Color(30, 144, 255));
+		btnOpcionesDeRecuperacion.setFont(new Font("Arial", Font.PLAIN, 25));
+		btnOpcionesDeRecuperacion.setBackground(Color.WHITE);
+		btnOpcionesDeRecuperacion.setBounds(103, 376, 391, 51);
+		contentPane.add(btnOpcionesDeRecuperacion);
 		btnEditarPerfil.setForeground(new Color(30, 144, 255));
 		btnEditarPerfil.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnEditarPerfil.setBackground(Color.WHITE);
