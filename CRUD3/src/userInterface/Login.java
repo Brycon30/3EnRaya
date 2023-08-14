@@ -5,10 +5,13 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,14 +68,15 @@ public class Login extends JFrame {
 
 			}
 			if (e.getSource().equals(btnLogin)) {
-				
-				//se verifica que el usuario y password sean los de algun usuario registrado en la base de datos
+
+				// se verifica que el usuario y password sean los de algun usuario registrado en
+				// la base de datos
 				if (iniciarSecion(tfNombreUsuario.getText())) {
 					Conexion.nombre = tfNombreUsuario.getText();
-					
-					//aqui devemos poner un metodo que guarde el id en conexion.id
+
+					// aqui devemos poner un metodo que guarde el id en conexion.id
 					getId(tfNombreUsuario.getText());
-					
+
 					MenuInicio m = new MenuInicio();
 					m.setVisible(true);
 					((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();// cerramos la pantalla actual
@@ -83,25 +87,25 @@ public class Login extends JFrame {
 
 		}
 	}
-	
+
 	private void getId(String nombreJugador) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select idJugador from jugadores where nombre = ?";
-		
+
 		try {
-			//se Prepara el sql
+			// se Prepara el sql
 			ps = Conexion.getConnection().prepareStatement(sql);
 			ps.setString(1, nombreJugador);
-			//Se ejecuta el sql
+			// Se ejecuta el sql
 			rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
-		        // Obtener los datos de cada columna
+				// Obtener los datos de cada columna
 				conexion.Conexion.idJugador = rs.getInt("idJugador");
-				
-		        // Hacer algo con los datos obtenidos
-		    }
+
+				// Hacer algo con los datos obtenidos
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -153,9 +157,31 @@ public class Login extends JFrame {
 		return b;
 
 	}
+	
+	public void setupEnterKeyForLogin() {
+	    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+	        @Override
+	        public boolean dispatchKeyEvent(KeyEvent e) {
+	            if (e.getID() == KeyEvent.KEY_RELEASED && e.getKeyCode() == KeyEvent.VK_ENTER) {
+	                if (iniciarSecion(tfNombreUsuario.getText())) {
+	                    Conexion.nombre = tfNombreUsuario.getText();
+	                    getId(tfNombreUsuario.getText());
+
+	                    MenuInicio m = new MenuInicio();
+	                    m.setVisible(true);
+	                    ((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();
+	                } else {
+	                    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+	                }
+	            }
+	            return false; // Permite que otros componentes también reciban el evento
+	        }
+	    });
+	}
+
 
 	public void ponerEscuchador() {
-		//se ponen escuchadores en los botones
+		// se ponen escuchadores en los botones
 		btnVolver.addActionListener(manejadorB);
 		btnLogin.addActionListener(manejadorB);
 	}
@@ -235,7 +261,7 @@ public class Login extends JFrame {
 		tfPassword.setBounds(164, 241, 287, 51);
 		contentPane.add(tfPassword);
 		tfPassword.setColumns(10);
-		
+
 		tfPassword.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -272,16 +298,21 @@ public class Login extends JFrame {
 		contentPane.add(btnLogin);
 
 		JLabel backgroundLabel = new JLabel();
-        backgroundLabel.setBounds(0, 0, 584, 497);
-        ImageIcon backgroundIcon = new ImageIcon("src\\driver\\fondoGeneral.png");
-        Image backgroundImg = backgroundIcon.getImage();
-        Image scaledImg = backgroundImg.getScaledInstance(backgroundLabel.getWidth(), backgroundLabel.getHeight(), Image.SCALE_SMOOTH);
-        backgroundLabel.setIcon(new ImageIcon(scaledImg));
+		backgroundLabel.setBounds(0, 0, 584, 497);
+		ImageIcon backgroundIcon = new ImageIcon("src\\driver\\fondoGeneral.png");
+		Image backgroundImg = backgroundIcon.getImage();
+		Image scaledImg = backgroundImg.getScaledInstance(backgroundLabel.getWidth(), backgroundLabel.getHeight(),
+				Image.SCALE_SMOOTH);
+		backgroundLabel.setIcon(new ImageIcon(scaledImg));
 
-        contentPane.add(backgroundLabel, BorderLayout.CENTER);
+		contentPane.add(backgroundLabel, BorderLayout.CENTER);
 
-        contentPane.add(backgroundLabel, BorderLayout.CENTER);
-		
+		contentPane.add(backgroundLabel, BorderLayout.CENTER);
+
+		//pone escuchadores en los botones
 		ponerEscuchador();
+		
+		//Pone el escuchador del teclado para comprobar que se pulso el intro
+		setupEnterKeyForLogin();
 	}
 }
