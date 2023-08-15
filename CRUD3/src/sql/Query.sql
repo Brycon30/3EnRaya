@@ -155,17 +155,18 @@ END
 end
 
 --SE CREA EL TRIGGER QUE EVITA QUE SE CAMBIE EL NOMBRE DE UN JUGADOR
-create trigger verificarUpdateUsuario
+alter trigger verificarUpdateUsuario
 ON jugadores
 instead of update
 as
 begin
-declare @nombreDel varchar(50), @nombreIns varchar(50), @id int, @passwordIns varchar(50)
+declare @nombreDel varchar(50), @nombreIns varchar(50), @id int, @passwordIns varchar(50), @telefonoIns varchar(10)
 select @nombreDel = nombre from deleted
 select @nombreIns = nombre from inserted
 select @passwordIns = contraseña from inserted
+select @telefonoIns = telefono from inserted
 select @id = idJugador from inserted
-IF UPDATE(nombre)
+IF UPDATE(nombre)--EN CASO DE QUE SE QUIERA ACTUALIZAR NOMBRE
 	IF EXISTS (select 1 from jugadores where nombre = @nombreIns)
 		begin
 		print 'se encontró usuario que se llama igual'
@@ -179,16 +180,22 @@ IF UPDATE(nombre)
 		set nombre = @nombreIns
 		where nombre = @nombreDel
 	end
-else if UPDATE(partidasGanadas)
+else if UPDATE(partidasGanadas)--EN CASO DE QUE SE QUIERAN ACTUALIZAR LAS PARTIDAS GANADAS
 	begin
 	update jugadores
 	set partidasGanadas = partidasGanadas+1
 	where nombre = @nombreIns
 	end
-else if UPDATE(contraseña)
+else if UPDATE(contraseña)-- EN CASO DE QUE SE QUIERA ACTUALIZAR LA CONTRASEÑA
 	begin
 	update jugadores
 	set contraseña = @passwordIns
+	where idJugador = @id
+	end
+else if UPDATE(telefono)-- EN CASO DE QUE SE QUIERA ACTUALIZAR EL NUMERO DE TELEFONO
+	begin
+	update jugadores
+	set telefono = @telefonoIns
 	where idJugador = @id
 	end
 end
