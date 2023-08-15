@@ -10,6 +10,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -18,6 +20,8 @@ import java.awt.Font;
 public class ResultadoPartida extends JFrame {
 
 	private JPanel contentPane;
+	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
+	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
 
 	/**
 	 * Launch the application.
@@ -43,7 +47,7 @@ public class ResultadoPartida extends JFrame {
 	// mediante el string del constructor se pone un mensaje en esta pantalla
 	//asi se puede hacer la logica desde el juego mucho mas sencillo
 	public ResultadoPartida(String resultado) {
-		setTitle("Resultado");
+		setTitle(messages.getString("Result"));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 536);

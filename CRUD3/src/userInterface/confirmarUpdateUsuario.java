@@ -20,6 +20,8 @@ import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 
 public class confirmarUpdateUsuario extends JFrame {
@@ -27,6 +29,8 @@ public class confirmarUpdateUsuario extends JFrame {
 	private JPanel contentPane;
 	private JPasswordField passwordField;
 	private JButton btnActualizar;
+	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
+	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
 
 	/**
 	 * Launch the application.
@@ -48,7 +52,7 @@ public class confirmarUpdateUsuario extends JFrame {
 	 * Create the frame.
 	 */
 	public confirmarUpdateUsuario() {
-		setTitle("Confirmar passwod");
+		setTitle(messages.getString("Confirm") + " " + messages.getString("password"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 175);
 		contentPane = new JPanel();
@@ -57,7 +61,7 @@ public class confirmarUpdateUsuario extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblPassword = new JLabel("Password");
+		JLabel lblPassword = new JLabel(messages.getString("password"));
 		lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPassword.setForeground(Color.WHITE);
 		lblPassword.setFont(new Font("Arial", Font.BOLD, 25));
@@ -71,7 +75,7 @@ public class confirmarUpdateUsuario extends JFrame {
 		passwordField.setBounds(10, 56, 330, 45);
 		contentPane.add(passwordField);
 		
-		btnActualizar = new JButton("Confirmar");
+		btnActualizar = new JButton(messages.getString("Confirm"));
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("boton pulsado");
@@ -120,7 +124,7 @@ public class confirmarUpdateUsuario extends JFrame {
 						sentencia.executeUpdate();
 						if (sentencia.executeUpdate() > 0) {
 							// si se hace el insert muestra este mensaje
-							JOptionPane.showMessageDialog(null, "Se ha registrado Exitosamente");
+							JOptionPane.showMessageDialog(null, messages.getString("succesfulRegister"));
 						}
 						sentencia.close();
 					} catch (Exception e2) {

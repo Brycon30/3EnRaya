@@ -15,6 +15,8 @@ import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,6 +41,8 @@ public class Login extends JFrame {
 	private JButton btnLogin;
 	private ManejadorBoton manejadorB = new ManejadorBoton();
 	private JLabel label;
+	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
+	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
 
 	/**
 	 * Launch the application.
@@ -81,7 +85,7 @@ public class Login extends JFrame {
 					m.setVisible(true);
 					((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();// cerramos la pantalla actual
 				} else {
-					JOptionPane.showMessageDialog(null, "usuario o contraseña incorrectos");
+					JOptionPane.showMessageDialog(null, messages.getString("incorrectInfo"));
 				}
 			}
 
@@ -171,7 +175,7 @@ public class Login extends JFrame {
 	                    m.setVisible(true);
 	                    ((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();
 	                } else {
-	                    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+	                    JOptionPane.showMessageDialog(null, messages.getString("incorrectInfo"));
 	                }
 	            }
 	            return false; // Permite que otros componentes también reciban el evento
@@ -187,7 +191,7 @@ public class Login extends JFrame {
 	}
 
 	public Login() {
-		setTitle("Login");
+		setTitle(messages.getString("Login"));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 536);
@@ -198,7 +202,7 @@ public class Login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblLogin = new JLabel("Login");
+		JLabel lblLogin = new JLabel(messages.getString("Login"));
 		lblLogin.setBounds(164, 5, 287, 81);
 		lblLogin.setForeground(Color.WHITE);
 		lblLogin.setFont(new Font("Arial", Font.BOLD, 54));
@@ -209,7 +213,7 @@ public class Login extends JFrame {
 		label.setBounds(292, 5, 287, 81);
 		contentPane.add(label);
 
-		JLabel lblNombreUsuario = new JLabel("Nombre de usuario");
+		JLabel lblNombreUsuario = new JLabel(messages.getString("userName"));
 		lblNombreUsuario.setForeground(Color.WHITE);
 		lblNombreUsuario.setBounds(164, 97, 287, 41);
 		lblNombreUsuario.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -217,7 +221,7 @@ public class Login extends JFrame {
 		contentPane.add(lblNombreUsuario);
 
 		tfNombreUsuario = new JTextField();
-		tfNombreUsuario.setText("Ingrese un nickname");
+		tfNombreUsuario.setText(messages.getString("Enter") + " " + messages.getString("Name"));
 		tfNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		tfNombreUsuario.setForeground(Color.GRAY);
 		tfNombreUsuario.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -229,7 +233,7 @@ public class Login extends JFrame {
 			@Override
 			public void focusGained(FocusEvent e) {
 				// Limpiar el texto de ejemplo cuando se obtiene el foco
-				if (tfNombreUsuario.getText().equals("Ingrese un nickname")) {
+				if (tfNombreUsuario.getText().equals(messages.getString("Enter") + " " + messages.getString("Name"))) {
 					tfNombreUsuario.setText("");
 					tfNombreUsuario.setForeground(new Color(30, 144, 255));
 				}
@@ -240,13 +244,13 @@ public class Login extends JFrame {
 				// Restaurar el texto de ejemplo si no se ingresó ningún texto
 				if (tfNombreUsuario.getText().isEmpty()) {
 					tfNombreUsuario.setForeground(Color.GRAY);
-					tfNombreUsuario.setText("Ingrese un nickname");
+					tfNombreUsuario.setText(messages.getString("Enter") + " " + messages.getString("Name"));
 				}
 			}
 
 		});
 
-		JLabel lblPassword = new JLabel("contrase\u00f1a");
+		JLabel lblPassword = new JLabel(messages.getString("password"));
 		lblPassword.setFont(new Font("Arial", Font.PLAIN, 25));
 		lblPassword.setForeground(Color.WHITE);
 		lblPassword.setBounds(164, 200, 287, 41);
@@ -254,7 +258,7 @@ public class Login extends JFrame {
 		contentPane.add(lblPassword);
 
 		tfPassword = new JPasswordField();
-		tfPassword.setText("Ingrese una contrase\u00f1a");
+		tfPassword.setText(messages.getString("Enter") + " " + messages.getString("password"));
 		tfPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		tfPassword.setFont(new Font("Arial", Font.PLAIN, 25));
 		tfPassword.setForeground(Color.GRAY);
@@ -266,7 +270,7 @@ public class Login extends JFrame {
 			@Override
 			public void focusGained(FocusEvent e) {
 				// Limpiar el texto de ejemplo cuando se obtiene el foco
-				if (tfPassword.getText().equals("Ingrese una contrase\u00f1a")) {
+				if (tfPassword.getText().equals(messages.getString("Enter") + " " + messages.getString("password"))) {
 					tfPassword.setText("");
 					tfPassword.setForeground(new Color(30, 144, 255));
 				}
@@ -277,20 +281,20 @@ public class Login extends JFrame {
 				// Restaurar el texto de ejemplo si no se ingresó ningún texto
 				if (tfPassword.getText().isEmpty()) {
 					tfPassword.setForeground(Color.GRAY);
-					tfPassword.setText("Ingrese una contrase\u00f1a");
+					tfPassword.setText(messages.getString("Enter") + " " + messages.getString("password"));
 				}
 			}
 
 		});
 
-		btnVolver = new JButton("Volver");
+		btnVolver = new JButton(messages.getString("Back"));
 		btnVolver.setForeground(new Color(30, 144, 255));
 		btnVolver.setBackground(Color.WHITE);
 		btnVolver.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnVolver.setBounds(7, 436, 234, 51);
 		contentPane.add(btnVolver);
 
-		btnLogin = new JButton("Login");
+		btnLogin = new JButton(messages.getString("Login"));
 		btnLogin.setForeground(new Color(30, 144, 255));
 		btnLogin.setBackground(Color.WHITE);
 		btnLogin.setFont(new Font("Arial", Font.PLAIN, 25));

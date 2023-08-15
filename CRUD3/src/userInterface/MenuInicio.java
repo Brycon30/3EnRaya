@@ -3,6 +3,8 @@ package userInterface;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,6 +32,8 @@ public class MenuInicio extends JFrame {
 	private JButton btnPerfil;
 	private JButton btnLeaderboard;
 	private JButton btnSalir;
+	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
+	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
 
 	/**
 	 * Launch the application.
@@ -99,6 +103,7 @@ public class MenuInicio extends JFrame {
 	}
 
 	public MenuInicio() {
+		setTitle(messages.getString("startMenu") + " " + conexion.Conexion.nombre);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 536);
 		contentPane = new JPanel();
@@ -108,28 +113,28 @@ public class MenuInicio extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		btnJugar = new JButton("Jugar");
+		btnJugar = new JButton(messages.getString("Play"));
 		btnJugar.setBackground(Color.WHITE);
 		btnJugar.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnJugar.setForeground(new Color(30, 144, 255));
 		btnJugar.setBounds(10, 216, 223, 51);
 		contentPane.add(btnJugar);
 
-		btnPerfil = new JButton("Perfil");
+		btnPerfil = new JButton(messages.getString("Profile"));
 		btnPerfil.setBackground(Color.WHITE);
 		btnPerfil.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnPerfil.setForeground(new Color(30, 144, 255));
 		btnPerfil.setBounds(10, 278, 223, 51);
 		contentPane.add(btnPerfil);
 
-		btnLeaderboard = new JButton("Leaderboard");
+		btnLeaderboard = new JButton(messages.getString("Leaderboard"));
 		btnLeaderboard.setBackground(Color.WHITE);
 		btnLeaderboard.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnLeaderboard.setForeground(new Color(30, 144, 255));
 		btnLeaderboard.setBounds(10, 340, 223, 51);
 		contentPane.add(btnLeaderboard);
 
-		btnSalir = new JButton("Salir");
+		btnSalir = new JButton(messages.getString("Exit"));
 		btnSalir.setBackground(Color.WHITE);
 		btnSalir.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnSalir.setForeground(new Color(30, 144, 255));

@@ -7,7 +7,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerListModel;
 
 public class Inicio extends JFrame {
 
@@ -24,9 +27,10 @@ public class Inicio extends JFrame {
 	private JPanel contentPane;
 	private JButton btnRegistro;
 	private JButton btnLogin;
-	
+	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
+	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
 	private ManejadorBoton manejadorB= new ManejadorBoton();
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -79,7 +83,8 @@ public class Inicio extends JFrame {
 	 * Create the frame.
 	 */
 	public Inicio() {
-		setTitle("Tres en raya");
+		
+		setTitle(messages.getString("gameName"));
 		setResizable(false);
 		this.setVisible(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,25 +92,24 @@ public class Inicio extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(30, 144, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblTresEnRaya = new JLabel("Tres en raya");
+		JLabel lblTresEnRaya = new JLabel(messages.getString("gameName"));
 		lblTresEnRaya.setFont(new Font("Arial", Font.BOLD, 54));
 		lblTresEnRaya.setForeground(Color.WHITE);
 		lblTresEnRaya.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTresEnRaya.setBounds(115, 11, 352, 86);
 		contentPane.add(lblTresEnRaya);
 		
-		btnRegistro = new JButton("Registro");
+		btnRegistro = new JButton(messages.getString("Register"));
 		btnRegistro.setBackground(Color.WHITE);
 		btnRegistro.setForeground(new Color(30, 144, 255));
 		btnRegistro.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnRegistro.setBounds(10, 429, 223, 57);
 		contentPane.add(btnRegistro);
 		
-		btnLogin = new JButton("Login");
+		btnLogin = new JButton(messages.getString("Login"));
 		btnLogin.setBackground(Color.WHITE);
 		btnLogin.setForeground(new Color(30, 144, 255));
 		btnLogin.setFont(new Font("Arial", Font.PLAIN, 25));

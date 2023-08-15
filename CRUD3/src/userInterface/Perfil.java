@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,7 +32,8 @@ public class Perfil extends JFrame {
 	private JLabel lblShowPartidasGanadas;
 	private JLabel lblShowJuegosTotales;
 	private JLabel lblShowWinrate;
-
+	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
+	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
 	/**
 	 * Launch the application.
 	 */
@@ -123,7 +126,7 @@ public class Perfil extends JFrame {
 	 * Create the frame.
 	 */
 	public Perfil() {
-		setTitle(conexion.Conexion.nombre + " - Perfil");
+		setTitle(conexion.Conexion.nombre + " - " + messages.getString("Profile"));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 536);
@@ -134,7 +137,7 @@ public class Perfil extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnVolver = new JButton("Volver");
+		JButton btnVolver = new JButton(messages.getString("Back"));
 		btnVolver.setBackground(Color.WHITE);
 		btnVolver.setForeground(new Color(30, 144, 255));
 		btnVolver.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -146,7 +149,7 @@ public class Perfil extends JFrame {
 			}
 		});
 		
-		JButton btnEditarPerfil = new JButton("Editar perfil");
+		JButton btnEditarPerfil = new JButton(messages.getString("Edit") + " " + messages.getString("Profile"));
 		btnEditarPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PerfilOpciones po = new PerfilOpciones();
@@ -157,7 +160,7 @@ public class Perfil extends JFrame {
 			}
 		});
 		
-		JButton btnOpcionesDeRecuperacion = new JButton("Opciones de recuperacion");
+		JButton btnOpcionesDeRecuperacion = new JButton(messages.getString("recoveryOptions"));
 		btnOpcionesDeRecuperacion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -190,7 +193,7 @@ public class Perfil extends JFrame {
 		lblShowJuegosTotales.setForeground(new Color(30, 144, 255));
 		lblShowJuegosTotales.setFont(new Font("Arial", Font.BOLD, 50));
 		
-		JLabel lblPartidasTotales = new JLabel("Juegos totales");
+		JLabel lblPartidasTotales = new JLabel(messages.getString("totalGames"));
 		lblPartidasTotales.setBounds(0, 113, 210, 30);
 		panel.add(lblPartidasTotales);
 		lblPartidasTotales.setForeground(new Color(30, 144, 255));
@@ -202,13 +205,13 @@ public class Perfil extends JFrame {
 		lblShowPartidasGanadas.setForeground(new Color(30, 144, 255));
 		lblShowPartidasGanadas.setFont(new Font("Arial", Font.BOLD, 50));
 		
-		JLabel lblPartidasGanadas = new JLabel("Partidas ganadas");
+		JLabel lblPartidasGanadas = new JLabel(messages.getString("Wins"));
 		lblPartidasGanadas.setBounds(0, 47, 210, 30);
 		panel.add(lblPartidasGanadas);
 		lblPartidasGanadas.setForeground(new Color(30, 144, 255));
 		lblPartidasGanadas.setFont(new Font("Arial", Font.BOLD, 25));
 		
-		lblShowNombre = new JLabel("Usuario");
+		lblShowNombre = new JLabel(messages.getString("User"));
 		lblShowNombre.setBounds(0, 0, 343, 52);
 		panel.add(lblShowNombre);
 		lblShowNombre.setFont(new Font("Arial", Font.BOLD, 50));
@@ -228,7 +231,7 @@ public class Perfil extends JFrame {
 		lblShowWinrate.setBounds(211, 140, 132, 43);
 		panel.add(lblShowWinrate);
 		
-		JLabel lblPerfil = new JLabel("Perfil");
+		JLabel lblPerfil = new JLabel(messages.getString("Profile"));
 		lblPerfil.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPerfil.setForeground(Color.WHITE);
 		lblPerfil.setFont(new Font("Arial", Font.BOLD, 70));

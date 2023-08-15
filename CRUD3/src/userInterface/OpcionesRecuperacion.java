@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -16,6 +18,8 @@ import javax.swing.border.EmptyBorder;
 public class OpcionesRecuperacion extends JFrame {
 
 	private JPanel contentPane;
+	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
+	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
 
 	/**
 	 * Launch the application.
@@ -45,21 +49,21 @@ public class OpcionesRecuperacion extends JFrame {
 
 		setContentPane(contentPane);
 		
-		JLabel lblPerfil = new JLabel("Recuperacion");
+		JLabel lblPerfil = new JLabel(messages.getString("Recover"));
 		lblPerfil.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPerfil.setForeground(Color.WHITE);
 		lblPerfil.setFont(new Font("Arial", Font.BOLD, 70));
 		lblPerfil.setBounds(0, 11, 584, 81);
 		contentPane.add(lblPerfil);
 		
-		JLabel lblPregunta = new JLabel("Pregunta de recuperacion");
+		JLabel lblPregunta = new JLabel(messages.getString("recoveryQuestion"));
 		lblPregunta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPregunta.setBounds(10, 99, 584, 30);
 		contentPane.add(lblPregunta);
 		lblPregunta.setForeground(Color.WHITE);
 		lblPregunta.setFont(new Font("Arial", Font.BOLD, 25));
 		
-		JLabel lblRespuesta = new JLabel("Respuesta");
+		JLabel lblRespuesta = new JLabel(messages.getString("Answer"));
 		lblRespuesta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRespuesta.setBounds(187, 243, 210, 30);
 		contentPane.add(lblRespuesta);
@@ -76,7 +80,7 @@ public class OpcionesRecuperacion extends JFrame {
 		contentPane.add(tfPregunta);
 		
 		JTextField tfRespuesta = new JTextField();
-		tfRespuesta.setText("Ingrese respuesta");
+		tfRespuesta.setText(messages.getString("Enter") + " " + messages.getString("Question"));
 		tfRespuesta.setHorizontalAlignment(SwingConstants.CENTER);
 		tfRespuesta.setForeground(Color.GRAY);
 		tfRespuesta.setFont(new Font("Arial", Font.PLAIN, 25));

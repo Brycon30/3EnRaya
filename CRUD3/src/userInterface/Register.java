@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,8 +41,9 @@ public class Register extends JFrame {
 	private JFormattedTextField tfTelefono;
 	private JPasswordField tfPassword;
 	private JPasswordField tfConfirmPassword;
-
 	public static String sql;
+	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
+	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
 	
 
 	/**
@@ -67,38 +70,33 @@ public class Register extends JFrame {
 
 		//se checa que el tfNombre tenga un nombre mayor a 3 caracteres
 		if (tfNombre.getText().length()<4) {
-			JOptionPane.showMessageDialog(null, "Debes escribir un nombre de usuario con mas de 3 caracteres");
+			JOptionPane.showMessageDialog(null, messages.getString("invalidName1"));
 			// se checa que el telefono sea de 10 digitos
 		} else if (tfNombre.getText().length()>10) {
-			JOptionPane.showMessageDialog(null, "El nombre de usuario debe de contener menos de 10 caracteres");
+			JOptionPane.showMessageDialog(null, messages.getString("invalidName2"));
 		} else if (tfTelefono.getText().length() != 10) {
-			JOptionPane.showMessageDialog(null, "Debes escribir un numero de telefono valido");
+			JOptionPane.showMessageDialog(null, messages.getString("invalidPhone"));
 		//se checa que la password tenga algo escrito
 		} else if (tfTelefono.getText().contains(" ")) {
-			JOptionPane.showMessageDialog(null, "Numero de telefono no valido");
+			JOptionPane.showMessageDialog(null, messages.getString("invalidPhone"));
 		//se comprueba que el telefono tenga 10 digitos
 		}
 		else if (tfPassword.getText().isBlank()) {
-			JOptionPane.showMessageDialog(null, "Debes escribir una contrase\u00f1a");
+			JOptionPane.showMessageDialog(null, messages.getString("invalidPassword1"));
 		//se checa que se haya confirmado la password
 		} else if (tfConfirmPassword.getText().isBlank()) {
-			JOptionPane.showMessageDialog(null, "Debes confirmar la contrase\u00f1a");
+			JOptionPane.showMessageDialog(null, messages.getString("confirmPassword"));
 		//se checa que las passwords sean iguales
 		} else if (!tfConfirmPassword.getText().equals(tfPassword.getText())) {
-			JOptionPane.showMessageDialog(null, "Las contrase\u00f1as no coinciden");
+			JOptionPane.showMessageDialog(null, messages.getString("invalidPassword2"));
 		//se valida que la password sea segura con reglas comunes
 		}else if (!regexPassword(tfPassword.getText())) {
-			JOptionPane.showMessageDialog(null, "La contraseña no es segura\r\n"
-					+ "Necesita tener al menos 8 caracteres de longitud\r\n"
-					+ "Contener al menos una letra minuscula [a-z]\r\n"
-					+ "Contener al menos una letra mayuscula [A-Z]\r\n"
-					+ "Contener al menos un numero\r\n"
-					+ "Contener al menos un caracter especial [@#$%!]");
+			JOptionPane.showMessageDialog(null, messages.getString("regexPassword"));
 
 			// se llama a una funcion que checa si el nombre de usuario ya existe en la base
 			// de datos
 		} else if (checarUsuario(tfNombre.getText())) {
-			JOptionPane.showMessageDialog(null, "Ese nombre de usuario ya esta en uso, elige otro");
+			JOptionPane.showMessageDialog(null, messages.getString("invalidName3"));
 		} else {
 
 			PreparedStatement sentencia = null;
@@ -115,14 +113,14 @@ public class Register extends JFrame {
 
 				if (sentencia.executeUpdate() > 0) {
 					// si se hace el insert muestra este mensaje
-					JOptionPane.showMessageDialog(null, "Se ha registrado Exitosamente", "InformaciÃ³n",
+					JOptionPane.showMessageDialog(null, messages.getString("succesfulRegister"), messages.getString("Information"),
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
 			} catch (SQLException e) {
 				System.err.print("Error de SQL " + e.getMessage());
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, "No se Registro, verifique la consola para ver el error", "Error",
+				JOptionPane.showMessageDialog(null, messages.getString("unsuccesfulRegister"), "Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -189,7 +187,7 @@ public class Register extends JFrame {
 	}
 
 	public Register() {
-		setTitle("Registro");
+		setTitle(messages.getString("Register"));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 536);
@@ -200,13 +198,13 @@ public class Register extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblRegistro = new JLabel("Registro");
+		JLabel lblRegistro = new JLabel(messages.getString("registerAlt"));
 		lblRegistro.setForeground(Color.WHITE);
 		lblRegistro.setFont(new Font("Arial", Font.BOLD, 54));
 		lblRegistro.setBounds(176, 14, 225, 63);
 		contentPane.add(lblRegistro);
 
-		JLabel lblNombre = new JLabel("Nombre");
+		JLabel lblNombre = new JLabel(messages.getString("userName"));
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNombre.setForeground(Color.WHITE);
 		lblNombre.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -225,7 +223,7 @@ public class Register extends JFrame {
 			@Override
 			public void focusGained(FocusEvent e) {
 				// Limpiar el texto de ejemplo cuando se obtiene el foco
-				if (tfNombre.getText().equals("Ingrese un nickname")) {
+				if (tfNombre.getText().equals(messages.getString("Enter") + " " + messages.getString("Name"))) {
 					tfNombre.setText("");
 					tfNombre.setFont(new Font("Arial", Font.PLAIN, 25));
 					tfNombre.setForeground(new Color(30, 144, 255));
@@ -238,13 +236,13 @@ public class Register extends JFrame {
 				if (tfNombre.getText().isEmpty()) {
 					tfNombre.setFont(new Font("Arial", Font.PLAIN, 20));
 					tfNombre.setForeground(Color.GRAY);
-					tfNombre.setText("Ingrese un nickname");
+					tfNombre.setText(messages.getString("Enter") + " " + messages.getString("Name"));
 				}
 			}
 
 		});
 
-		JLabel lblTelefono = new JLabel("Telefono");
+		JLabel lblTelefono = new JLabel(messages.getString("phoneNumber"));
 		lblTelefono.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTelefono.setForeground(Color.WHITE);
 		lblTelefono.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -267,14 +265,14 @@ public class Register extends JFrame {
 		contentPane.add(tfTelefono);
 		tfTelefono.setColumns(10);
 
-		JLabel lblPassword = new JLabel("Password");
+		JLabel lblPassword = new JLabel(messages.getString("password"));
 		lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPassword.setForeground(Color.WHITE);
 		lblPassword.setFont(new Font("Arial", Font.PLAIN, 25));
 		lblPassword.setBounds(190, 264, 196, 31);
 		contentPane.add(lblPassword);
 
-		JLabel lblConfirmPassword = new JLabel("Confirma password");
+		JLabel lblConfirmPassword = new JLabel(messages.getString("Confirm") + " " + messages.getString("password"));
 		lblConfirmPassword.setForeground(Color.WHITE);
 		lblConfirmPassword.setFont(new Font("Arial", Font.PLAIN, 25));
 		lblConfirmPassword.setBounds(180, 351, 219, 31);
@@ -294,7 +292,7 @@ public class Register extends JFrame {
 		tfConfirmPassword.setBounds(174, 386, 237, 45);
 		contentPane.add(tfConfirmPassword);
 
-		JButton btnRegistrar = new JButton("Registrar");
+		JButton btnRegistrar = new JButton(messages.getString("Register"));
 		btnRegistrar.setBackground(Color.WHITE);
 		btnRegistrar.setForeground(new Color(30, 144, 255));
 		btnRegistrar.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -306,7 +304,7 @@ public class Register extends JFrame {
 		btnRegistrar.setBounds(424, 441, 150, 45);
 		contentPane.add(btnRegistrar);
 
-		JButton btnAtras = new JButton("Volver");
+		JButton btnAtras = new JButton(messages.getString("Back"));
 		btnAtras.setBackground(Color.WHITE);
 		btnAtras.setForeground(new Color(30, 144, 255));
 		btnAtras.setFont(new Font("Arial", Font.PLAIN, 25));

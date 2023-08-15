@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,6 +34,8 @@ public class Leaderboard extends JFrame {
 	public DefaultTableModel tablaModel;
 	private JTable table_1;
 	private JButton btnVolver;
+	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
+	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
 
 	/**
 	 * Launch the application.
@@ -102,8 +106,8 @@ public class Leaderboard extends JFrame {
 		table.setForeground(Color.BLACK);
 		table.setFont(new Font("Arial", Font.PLAIN, 11));
 		tablaModel = new DefaultTableModel();
-		tablaModel.addColumn("Nombre");
-		tablaModel.addColumn("Partidas ganadas");
+		tablaModel.addColumn(messages.getString("Name"));
+		tablaModel.addColumn(messages.getString("Wins"));
 		table.setModel(tablaModel);
 		table.setBounds(41, 56, 507, 351);
 		contentPane.add(table);
@@ -113,7 +117,7 @@ public class Leaderboard extends JFrame {
 		scroll.setBounds(table.getBounds());
 		contentPane.add(scroll);
 		
-		btnVolver = new JButton("Volver");
+		btnVolver = new JButton(messages.getString("Back"));
 		btnVolver.setBackground(Color.WHITE);
 		btnVolver.setForeground(new Color(30, 144, 255));
 		btnVolver.setFont(new Font("Arial", Font.PLAIN, 25));

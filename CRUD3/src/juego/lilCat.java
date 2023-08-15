@@ -11,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +25,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import userInterface.ResultadoPartida;
+import userInterface.elegirIdioma;
 
 public class lilCat extends JFrame {
 
@@ -41,6 +44,8 @@ public class lilCat extends JFrame {
 	public boolean flag = false;
 	private JButton btnRendirse;
 	public char ficha ='X';
+	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
+	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
 
 	/**
 	 * Launch the application.
@@ -62,6 +67,7 @@ public class lilCat extends JFrame {
 	 * Create the frame.
 	 */
 	public lilCat() {
+		setTitle(messages.getString("gameName"));
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBounds(100, 100, 326, 426);
@@ -75,7 +81,6 @@ public class lilCat extends JFrame {
 		textFieldResultado = new JTextField();
 		textFieldResultado.setEditable(false);
 		textFieldResultado.setForeground(new Color(30, 144, 255));
-		textFieldResultado.setToolTipText("Se muestra ganador.");
 		textFieldResultado.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldResultado.setFont(new Font("Arial", Font.PLAIN, 22));
 		textFieldResultado.setBounds(10, 11, 287, 31);
@@ -145,7 +150,7 @@ public class lilCat extends JFrame {
 		btn22.setBounds(208, 253, 89, 89);
 		contentPane.add(btn22);
 
-		btnRendirse = new JButton("Rendirse");
+		btnRendirse = new JButton(messages.getString("giveUp"));
 		btnRendirse.setForeground(new Color(30, 144, 255));
 		btnRendirse.setFont(new Font("Arial", Font.PLAIN, 20));
 		btnRendirse.setBackground(Color.WHITE);
@@ -158,7 +163,7 @@ public class lilCat extends JFrame {
 		//Bloqueamos botones para impedir que se pueda jugar sin nadie en linea
 		
 		bloquearBotones();
-		textFieldResultado.setText("Esperando un contrincante...");
+		textFieldResultado.setText(messages.getString("Waiting"));
 
 		// Comenzar a recivir mensajes
 		Thread recibirMensajesThread = new Thread(new RecibirMensajes());
