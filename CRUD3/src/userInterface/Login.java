@@ -115,7 +115,7 @@ public class Login extends JFrame {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		System.out.println(conexion.Conexion.idJugador);
+		//System.out.println(conexion.Conexion.idJugador);
 	}
 
 	private boolean iniciarSecion(String usuario) {

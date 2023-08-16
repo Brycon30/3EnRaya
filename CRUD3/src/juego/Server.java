@@ -25,7 +25,7 @@ public class Server {
 	public static void main(String[] args) {
 		int puerto = 1233; // Puerto en el que escuchará el servidor
 
-		System.out.println(clientes.size());
+		//System.out.println(clientes.size());
 		
 		try {
 			ServerSocket servidor = new ServerSocket(puerto);
@@ -88,7 +88,7 @@ public class Server {
 
 				while ((bytesRead = inputStream.read(buffer)) != -1) {
 					String mensaje = new String(buffer, 0, bytesRead);
-					System.out.println("Mensaje recibido de " + nombreCliente + ": " + mensaje);
+					//System.out.println("Mensaje recibido de " + nombreCliente + ": " + mensaje);
 
 					// Enviar el mensaje a todos los otros clientes
 					enviarMensajeAClientes(mensaje, nombreCliente);
@@ -112,10 +112,12 @@ public class Server {
 		if (posicion < clientes.size()) {
 			String nombreUsuario = (String) clientes.keySet().toArray()[posicion];
 			Socket cliente = clientes.get(nombreUsuario);
+			/*
 			System.out.println(nombreUsuario + cliente);
 			System.out.println(clientes.size());
 			System.out.println(posicion);
 			System.out.println(mensajePriv);
+			*/
 			try {
 				OutputStream outputStream = cliente.getOutputStream();
 				PrintWriter writer = new PrintWriter(outputStream);
@@ -148,7 +150,7 @@ public class Server {
 			if (mensajeA.equals("Gane")) {
 				// 0=x
 				
-				System.out.println(clientes.size());
+				//System.out.println(clientes.size());
 				
 				String ganador = null;
 

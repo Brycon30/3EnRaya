@@ -53,7 +53,7 @@ public class preguntaUsuario extends JFrame {
 
 	public static void conseguirPregunta(int id) {
 		String sql = "select pregunta from preguntasSeguridad where usuario = ?";
-		System.out.println("Se entra");
+		//System.out.println("Se entra");
 
 		try {
 			PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
@@ -72,13 +72,13 @@ public class preguntaUsuario extends JFrame {
 			// .printStackTrace();
 		}
 
-		System.out.println(id);
+		//System.out.println(id);
 
 	}
 
 	public static void conseguirRespuesta(int id) {
 		String sql = "select respuesta from preguntasSeguridad where usuario = ?";
-		System.out.println("Se entra");
+		//System.out.println("Se entra");
 
 		try {
 			PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
@@ -97,13 +97,13 @@ public class preguntaUsuario extends JFrame {
 			// .printStackTrace();
 		}
 
-		System.out.println(id);
+		//System.out.println(id);
 
 	}
 
 	public static void conseguirPassword(int id) {
 		String sql = "select contrase\u00f1a from jugadores where idJugador = ?";
-		System.out.println("Se entra");
+		//System.out.println("Se entra");
 
 		try {
 			PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
@@ -115,7 +115,7 @@ public class preguntaUsuario extends JFrame {
 				passwordField = rs.getString("contrase\u00f1a");
 			}
 
-			System.out.println(passwordField);
+			//System.out.println(passwordField);
 
 		} catch (Exception e) {
 			// un error aun peor
@@ -124,7 +124,7 @@ public class preguntaUsuario extends JFrame {
 			// .printStackTrace();
 		}
 
-		System.out.println(id);
+		//System.out.println(id);
 
 	}
 

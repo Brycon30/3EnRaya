@@ -130,7 +130,7 @@ public class SQLEasy {
 	
 	public static void conseguirID(String usuario) {
 		String sql = "select idJugador from jugadores where nombre = ?";
-		System.out.println("Se entra");
+		//System.out.println("Se entra");
 		id = 0;
 		
 	    try{
@@ -150,7 +150,7 @@ public class SQLEasy {
 	    //.printStackTrace();
 	    }
 	    
-	    System.out.println(id);
+	   // System.out.println(id);
 	 
 	}
 

@@ -78,7 +78,7 @@ public class confirmarUpdateUsuario extends JFrame {
 		btnActualizar = new JButton(messages.getString("Confirm"));
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("boton pulsado");
+				//System.out.println("boton pulsado");
 				PreparedStatement sentencia = null;
 				String sql = "select contrase\u00f1a from jugadores where idJugador = ?";
 				boolean b = false;
@@ -97,11 +97,11 @@ public class confirmarUpdateUsuario extends JFrame {
 						String pass = resultado.getString("contrase\u00f1a");
 
 						if (pass.equals(passwordField.getText())) {
-							System.out.println("Contraseña correcta");
+							//System.out.println("Contraseña correcta");
 							b = true;
 						} else {
 							b = false;
-							System.out.println("Contraseña incorrecta");
+							//System.out.println("Contraseña incorrecta");
 						}
 					}
 					resultado.close();

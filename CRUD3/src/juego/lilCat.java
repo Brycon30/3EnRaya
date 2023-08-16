@@ -354,7 +354,6 @@ public class lilCat extends JFrame {
 	            String mensaje;
 
 				while ((mensaje = reader.readLine()) != null) {
-					System.out.println(mensaje);
 						
 						
 						//se usa cuando empiezas en el juego
