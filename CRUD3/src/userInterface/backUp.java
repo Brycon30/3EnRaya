@@ -19,7 +19,6 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
@@ -57,16 +56,15 @@ public class backUp extends JFrame {
 		try {
 			PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
 			ps.setString(1, r);
-			ps.execute(sql);
-			ps.close();
-			
-			
-			
-			//if () {
-			//	JOptionPane.showMessageDialog(null, messages.getString("succesfulBackup"));
-			//} else {
-			//	JOptionPane.showMessageDialog(null, messages.getString("errorDatabase"));
-			//}
+			System.out.println("Se entra");
+
+			boolean rs = ps.execute(sql);
+
+		/*	if (rs > 0) {
+				JOptionPane.showMessageDialog(null, messages.getString("succesfulBackup"));
+			} else {
+				JOptionPane.showMessageDialog(null, messages.getString("errorDatabase"));
+			}/*
 
 			//System.out.println(passwordField);
 
