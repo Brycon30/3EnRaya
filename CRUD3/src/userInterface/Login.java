@@ -43,6 +43,8 @@ public class Login extends JFrame {
 	private JLabel label;
 	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
 	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
+	private JButton btnRecuperarPassword;
+	public static String usernameDesdeLogin = "";
 
 	/**
 	 * Launch the application.
@@ -201,6 +203,20 @@ public class Login extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		btnRecuperarPassword = new JButton(messages.getString("recoverPassword"));
+		btnRecuperarPassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				iftp i = new iftp();
+				i.setVisible(true);
+				((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();
+			}
+		});
+		btnRecuperarPassword.setForeground(new Color(30, 144, 255));
+		btnRecuperarPassword.setFont(new Font("Arial", Font.PLAIN, 18));
+		btnRecuperarPassword.setBackground(Color.WHITE);
+		btnRecuperarPassword.setBounds(194, 303, 234, 31);
+		contentPane.add(btnRecuperarPassword);
 
 		JLabel lblLogin = new JLabel(messages.getString("Login"));
 		lblLogin.setBounds(164, 5, 287, 81);

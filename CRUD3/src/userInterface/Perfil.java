@@ -164,8 +164,9 @@ public class Perfil extends JFrame {
 		btnOpcionesDeRecuperacion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				
+				OpcionesRecuperacion OR = new OpcionesRecuperacion();
+				OR.setVisible(true);
+				((JFrame) SwingUtilities.getWindowAncestor(contentPane)).dispose();
 			}
 		});
 		btnOpcionesDeRecuperacion.setForeground(new Color(30, 144, 255));

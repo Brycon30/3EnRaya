@@ -13,6 +13,7 @@ public class SQLEasy {
 	
 	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
 	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
+	public static int id = 0;
 	
 	public static void updName(String name) {
 		String sql = "update jugadores set nombre = ? where idJugador = ?";
@@ -111,20 +112,46 @@ public class SQLEasy {
 	        
 	        if (ps.executeUpdate() > 0) {
 	        	//todo bien 
-	            JOptionPane.showMessageDialog(null, messages.getString("succesfulInsert"), messages.getString("Information"),
+	            JOptionPane.showMessageDialog(null, messages.getString("succesfulInsert"), "",
 	                    JOptionPane.INFORMATION_MESSAGE);
 	        } else {
 	        	
 	        	//todo mal :c
-	            JOptionPane.showMessageDialog(null, messages.getString("unsuccessfulInsert"), messages.getString("Information"),
+	            JOptionPane.showMessageDialog(null, messages.getString("unsuccessfulInsert"), "",
 	                    JOptionPane.ERROR_MESSAGE);
 	        }
 	    } catch (Exception e) {
 	    	//un error aun peor
-	        JOptionPane.showMessageDialog(null, messages.getString("databaseError"), messages.getString("Error"),
+	        JOptionPane.showMessageDialog(null, messages.getString("databaseError"), "",
 	                JOptionPane.ERROR_MESSAGE);
 	        e.printStackTrace();
 	    }
+	}
+	
+	public static void conseguirID(String usuario) {
+		String sql = "select idJugador from jugadores where nombre = ?";
+		System.out.println("Se entra");
+		id = 0;
+		
+	    try{
+	    	PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
+	        ps.setString(1, usuario);
+	        
+	        ResultSet rs = ps.executeQuery();
+	        
+	        if (rs.next()) {
+	        	id = rs.getInt(1);
+	        }
+	        
+	    } catch (Exception e) {
+	    	//un error aun peor
+	       // JOptionPane.showMessageDialog(null, messages.getString("databaseError"), "",
+	     //           JOptionPane.ERROR_MESSAGE);
+	    //.printStackTrace();
+	    }
+	    
+	    System.out.println(id);
+	 
 	}
 
 }
