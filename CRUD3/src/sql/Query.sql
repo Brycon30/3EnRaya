@@ -137,6 +137,56 @@ insert into bitacoraJugadores values(
 GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
 end
 
+--SE CREAN BITACORAS INSERT DE PREGUNTAS
+create trigger insertPregunta
+on preguntasSeguridad
+for INSERT
+as 
+begin
+declare @reg varchar(500)
+select @reg=concat(idPregunta,'|',usuario,'|',pregunta,'|',respuesta,'|') from inserted
+insert into bitacoraPreguntas values(
+GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),null,@reg)
+end
+
+--SE CREA BITACORA DELETE DE PREGUNTAS
+create trigger deletePreguntas
+on preguntasSeguridad
+for DELETE
+as 
+begin
+declare @reg varchar(500)
+select @reg=concat(idPregunta,'|',usuario,'|',pregunta,'|',respuesta,'|') from deleted
+insert into bitacoraPreguntas values(
+GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,null)
+end
+
+--SE CREA BITACORA UPDATE DE PREGUNTAS
+create trigger updatePreguntas
+on preguntasSeguridad
+for UPDATE
+as 
+begin
+declare @reg varchar(500), @regNuevo varchar(500)
+select @reg=concat(idPregunta,'|',usuario,'|',pregunta,'|',respuesta,'|') from deleted
+select @regNuevo=concat(idPregunta,'|',usuario,'|',pregunta,'|',respuesta,'|') from inserted
+insert into bitacoraPreguntas values(
+GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
+end
+
+create trigger updateJugadores
+on jugadores
+for UPDATE
+as 
+begin
+declare @reg varchar(500)
+declare @regNuevo varchar(500)
+select @reg=concat(idJugador,'|',nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from deleted
+select @regNuevo=concat(idJugador,'|',nombre,'|',contraseña,'|',telefono,'|',partidasGanadas) from inserted
+insert into bitacoraJugadores values(
+GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
+end
+
 --SE CREA TRIGGER QUE HACE UPDATE A UNA PREGUNTA EN CASO DE QUE EL USUARIO YA TENGA UNA REGISTRADA PREVIAMENTE JUJUY
 create trigger insPregunta
 on preguntasSeguridad
@@ -150,11 +200,7 @@ select @idIns = usuario from inserted
 IF EXISTS (select 1 from preguntasSeguridad INNER JOIN inserted on preguntasSeguridad.usuario = inserted.usuario)
 begin
 	update preguntasSeguridad
-	set pregunta = @qIns
-	where usuario = @idIns
-
-	update preguntasSeguridad
-	set respuesta = @aIns
+	set pregunta = @qIns, respuesta = @aIns
 	where usuario = @idIns
 end
 ELSE

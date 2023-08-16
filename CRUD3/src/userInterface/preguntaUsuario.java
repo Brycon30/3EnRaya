@@ -33,7 +33,7 @@ public class preguntaUsuario extends JFrame {
 	private JTextField tfRespuesta;
 	public static String preguntaField = "";
 	public static String respeustaField = "";
-	public static String passwordField  = "";
+	public static String passwordField = "";
 
 	/**
 	 * Launch the application.
@@ -50,82 +50,82 @@ public class preguntaUsuario extends JFrame {
 			}
 		});
 	}
-	
+
 	public static void conseguirPregunta(int id) {
 		String sql = "select pregunta from preguntasSeguridad where usuario = ?";
 		System.out.println("Se entra");
-		
-	    try{
-	    	PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
-	        ps.setInt(1, id);
-	        
-	        ResultSet rs = ps.executeQuery();
-	        
-	        if (rs.next()) {
-	        	preguntaField = rs.getString("pregunta");
-	        }
-	        
-	    } catch (Exception e) {
-	    	//un error aun peor
-	       // JOptionPane.showMessageDialog(null, messages.getString("databaseError"), "",
-	     //           JOptionPane.ERROR_MESSAGE);
-	    //.printStackTrace();
-	    }
-	    
-	    System.out.println(id);
-	 
+
+		try {
+			PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				preguntaField = rs.getString("pregunta");
+			}
+
+		} catch (Exception e) {
+			// un error aun peor
+			// JOptionPane.showMessageDialog(null, messages.getString("databaseError"), "",
+			// JOptionPane.ERROR_MESSAGE);
+			// .printStackTrace();
+		}
+
+		System.out.println(id);
+
 	}
-	
+
 	public static void conseguirRespuesta(int id) {
 		String sql = "select respuesta from preguntasSeguridad where usuario = ?";
 		System.out.println("Se entra");
-		
-	    try{
-	    	PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
-	        ps.setInt(1, id);
-	        
-	        ResultSet rs = ps.executeQuery();
-	        
-	        if (rs.next()) {
-	        	respeustaField = rs.getString("respuesta");
-	        }
-	        
-	    } catch (Exception e) {
-	    	//un error aun peor
-	       // JOptionPane.showMessageDialog(null, messages.getString("databaseError"), "",
-	     //           JOptionPane.ERROR_MESSAGE);
-	    //.printStackTrace();
-	    }
-	    
-	    System.out.println(id);
-	 
+
+		try {
+			PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				respeustaField = rs.getString("respuesta");
+			}
+
+		} catch (Exception e) {
+			// un error aun peor
+			// JOptionPane.showMessageDialog(null, messages.getString("databaseError"), "",
+			// JOptionPane.ERROR_MESSAGE);
+			// .printStackTrace();
+		}
+
+		System.out.println(id);
+
 	}
-	
+
 	public static void conseguirPassword(int id) {
 		String sql = "select contrase\u00f1a from jugadores where idJugador = ?";
 		System.out.println("Se entra");
-		
-	    try{
-	    	PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
-	        ps.setInt(1, id);
-	        
-	        ResultSet rs = ps.executeQuery();
-	        
-	        if (rs.next()) {
-	        	passwordField = rs.getString("contrase\u00f1a");
-	        }
-	        
-	        System.out.println(passwordField);
-	        
-	    } catch (Exception e) {
-	    	//un error aun peor
-	       // JOptionPane.showMessageDialog(null, messages.getString("databaseError"), "",
-	     //           JOptionPane.ERROR_MESSAGE);
-	    //.printStackTrace();
-	    }
-	    
-	    System.out.println(id);
-	 
+
+		try {
+			PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				passwordField = rs.getString("contrase\u00f1a");
+			}
+
+			System.out.println(passwordField);
+
+		} catch (Exception e) {
+			// un error aun peor
+			// JOptionPane.showMessageDialog(null, messages.getString("databaseError"), "",
+			// JOptionPane.ERROR_MESSAGE);
+			// .printStackTrace();
+		}
+
+		System.out.println(id);
+
 	}
 
 	/**
@@ -139,21 +139,21 @@ public class preguntaUsuario extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		conseguirPregunta(iftp.idDesdeIftp);
 		conseguirRespuesta(iftp.idDesdeIftp);
-		
+
 		JLabel lblPregunta = new JLabel(preguntaField);
 		lblPregunta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPregunta.setForeground(Color.WHITE);
 		lblPregunta.setFont(new Font("Arial", Font.BOLD, 30));
 		lblPregunta.setBounds(10, 11, 414, 86);
 		contentPane.add(lblPregunta);
-		
+
 		if (preguntaField.isEmpty()) {
 			lblPregunta.setText(messages.getString("noQ"));
 		}
-		
+
 		tfRespuesta = new JTextField();
 		tfRespuesta.setHorizontalAlignment(SwingConstants.CENTER);
 		tfRespuesta.setForeground(new Color(30, 144, 255));
@@ -161,14 +161,18 @@ public class preguntaUsuario extends JFrame {
 		tfRespuesta.setColumns(10);
 		tfRespuesta.setBounds(67, 108, 311, 36);
 		contentPane.add(tfRespuesta);
-		
+
 		JButton btnIngresar = new JButton(messages.getString("Enter"));
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				conseguirPassword(iftp.idDesdeIftp);
 				String respuestaUsuario = tfRespuesta.getText();
 				if (respuestaUsuario.equals(respeustaField)) {
-					JOptionPane.showMessageDialog(null, messages.getString("password") + ": " + passwordField);
+					if (respeustaField.isEmpty()) {
+						
+					} else {
+						JOptionPane.showMessageDialog(null, messages.getString("password") + ": " + passwordField);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, messages.getString("invalidAns"));
 				}
@@ -179,7 +183,7 @@ public class preguntaUsuario extends JFrame {
 		btnIngresar.setBackground(Color.WHITE);
 		btnIngresar.setBounds(254, 155, 170, 51);
 		contentPane.add(btnIngresar);
-		
+
 		JButton btnVolver = new JButton(messages.getString("Back"));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -193,7 +197,7 @@ public class preguntaUsuario extends JFrame {
 		btnVolver.setBackground(Color.WHITE);
 		btnVolver.setBounds(10, 155, 170, 51);
 		contentPane.add(btnVolver);
-		
+
 		JLabel backgroundLabel = new JLabel();
 		backgroundLabel.setIcon(new ImageIcon(preguntaUsuario.class.getResource("/driver/fondoGeneral.png")));
 		backgroundLabel.setBounds(0, 0, 600, 536);
