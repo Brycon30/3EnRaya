@@ -58,13 +58,13 @@ public class backUp extends JFrame {
 			ps.setString(1, r);
 			System.out.println("Se entra");
 
-			boolean rs = ps.execute(sql);
+			//boolean rs = ps.execute(sql);
 
 		/*	if (rs > 0) {
 				JOptionPane.showMessageDialog(null, messages.getString("succesfulBackup"));
 			} else {
 				JOptionPane.showMessageDialog(null, messages.getString("errorDatabase"));
-			}/*
+			}/* */
 
 			//System.out.println(passwordField);
 
