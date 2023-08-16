@@ -351,19 +351,16 @@ VALUES ('tongo', 'abc123', '1111111111', 0)
 select*from partidas
 select*from jugadores
 
-exec crearPartida 'tongo','papu','tongo'
+create procedure backupTER
+@ruta nvarchar(128)
+as
+begin
+declare @nombreBackup nvarchar(128);
+set @nombreBackup = 'tresEnRaya' + '_' + replace(convert(nvarchar(20), getdate(), 120), ':', '') + '.bak';
+declare @SqlCommand nvarchar(500);
+set @SqlCommand = 'BACKUP DATABASE ' + quotename('tresenraya') + ' TO DISK = N''' +
+@ruta + @nombreBackup + ''' WITH INIT;';
+exec sp_executesql @SqlCommand;
+end
 
-
-update jugadores
-set contraseña = 'pruebaupdate'
-where nombre = 'tongo'
-
-exec winrate 'papu'
-
-delete from preguntasSeguridad where usuario = 7
-
-select idJugador from jugadores where nombre = 'Bryo'
-
-insert into partidas
-
-select * from preguntasSeguridad
+exec backupTER 'D:\backupBD'

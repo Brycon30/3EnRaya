@@ -34,6 +34,7 @@ public class MenuInicio extends JFrame {
 	private JButton btnSalir;
 	public static Locale currentLocale = new Locale(elegirIdioma.idioma);
 	public static ResourceBundle messages = ResourceBundle.getBundle("userInterface.messages", currentLocale);
+	private JButton btnAdmin;
 
 	/**
 	 * Launch the application.
@@ -117,28 +118,28 @@ public class MenuInicio extends JFrame {
 		btnJugar.setBackground(Color.WHITE);
 		btnJugar.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnJugar.setForeground(new Color(30, 144, 255));
-		btnJugar.setBounds(10, 216, 223, 51);
+		btnJugar.setBounds(10, 57, 223, 102);
 		contentPane.add(btnJugar);
 
 		btnPerfil = new JButton(messages.getString("Profile"));
 		btnPerfil.setBackground(Color.WHITE);
 		btnPerfil.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnPerfil.setForeground(new Color(30, 144, 255));
-		btnPerfil.setBounds(10, 278, 223, 51);
+		btnPerfil.setBounds(10, 212, 223, 51);
 		contentPane.add(btnPerfil);
 
 		btnLeaderboard = new JButton(messages.getString("Leaderboard"));
 		btnLeaderboard.setBackground(Color.WHITE);
 		btnLeaderboard.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnLeaderboard.setForeground(new Color(30, 144, 255));
-		btnLeaderboard.setBounds(10, 340, 223, 51);
+		btnLeaderboard.setBounds(10, 274, 223, 51);
 		contentPane.add(btnLeaderboard);
 
 		btnSalir = new JButton(messages.getString("Exit"));
 		btnSalir.setBackground(Color.WHITE);
 		btnSalir.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnSalir.setForeground(new Color(30, 144, 255));
-		btnSalir.setBounds(10, 402, 223, 51);
+		btnSalir.setBounds(10, 398, 223, 51);
 		contentPane.add(btnSalir);
         ImageIcon backgroundIcon = new ImageIcon("src\\driver\\fondoGeneral.png");
         Image backgroundImg = backgroundIcon.getImage();
@@ -146,6 +147,17 @@ public class MenuInicio extends JFrame {
         JLabel backgroundLabel = new JLabel();
         backgroundLabel.setBounds(0, 0, 584, 497);
         Image scaledImg = backgroundImg.getScaledInstance(backgroundLabel.getWidth(), backgroundLabel.getHeight(), Image.SCALE_SMOOTH);
+        
+        btnAdmin = new JButton("Admin"); //$NON-NLS-1$
+        btnAdmin.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
+        btnAdmin.setForeground(new Color(30, 144, 255));
+        btnAdmin.setFont(new Font("Arial", Font.PLAIN, 25));
+        btnAdmin.setBackground(Color.WHITE);
+        btnAdmin.setBounds(10, 336, 223, 51);
+        contentPane.add(btnAdmin);
         backgroundLabel.setIcon(new ImageIcon(MenuInicio.class.getResource("/driver/menuInicio.png")));
         
                 contentPane.add(backgroundLabel, BorderLayout.CENTER);
