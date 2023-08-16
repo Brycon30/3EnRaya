@@ -137,6 +137,32 @@ insert into bitacoraJugadores values(
 GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
 end
 
+create trigger insPregunta
+on preguntasSeguridad
+instead of insert
+as
+begin
+declare @qIns varchar(128), @aIns varchar(128), @idIns int
+select @qIns = pregunta from inserted
+select @aIns = respuesta from inserted
+select @idIns = usuario from inserted
+IF EXISTS (select 1 from preguntasSeguridad INNER JOIN inserted on preguntasSeguridad.usuario = inserted.usuario)
+begin
+	update preguntasSeguridad
+	set pregunta = @qIns
+	where usuario = @idIns
+
+	update preguntasSeguridad
+	set respuesta = @aIns
+	where usuario = @idIns
+end
+ELSE
+BEGIN
+INSERT INTO preguntasSeguridad(usuario,pregunta,respuesta) select usuario, pregunta, respuesta from inserted
+END
+end
+
+
 --SE CREA EL TRIGGER PARA VERIFICAR QUE EL USUARIO NO EXISTA
 create trigger verificarUsuario
 ON jugadores
@@ -287,6 +313,10 @@ where nombre = 'tongo'
 
 exec winrate 'papu'
 
+delete from preguntasSeguridad where usuario = 7
+
 select idJugador from jugadores where nombre = 'Bryo'
 
 insert into partidas
+
+select * from preguntasSeguridad
