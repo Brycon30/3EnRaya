@@ -1,27 +1,26 @@
 package userInterface;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Statement;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import conexion.Conexion;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
-import java.awt.Font;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.awt.Color;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.awt.event.ActionEvent;
 
 public class backUp extends JFrame {
 
@@ -40,6 +39,7 @@ public class backUp extends JFrame {
 			public void run() {
 				try {
 					backUp frame = new backUp();
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,24 +50,19 @@ public class backUp extends JFrame {
 	
 	public static void backup(String r) {
 		String sql = "{call backupTER(?)}";
-		System.out.println("Se entra");
-		System.out.println(r);
 
 		try {
-			PreparedStatement ps = Conexion.getConnection().prepareStatement(sql);
-			ps.setString(1, r);
-			System.out.println("Se entra");
+			CallableStatement cs = Conexion.getConnection().prepareCall(sql);
+			cs.setString(1, r);
+			
+			 boolean hasResultSet = cs.execute();
+		        if (!hasResultSet) {
+		            int rowsAffected = cs.getUpdateCount();
+		            
+		            //backup completo, un mensaje o algo asi
+		            System.out.println("Filas afectadas: " + rowsAffected);
 
-			//boolean rs = ps.execute(sql);
-
-		/*	if (rs > 0) {
-				JOptionPane.showMessageDialog(null, messages.getString("succesfulBackup"));
-			} else {
-				JOptionPane.showMessageDialog(null, messages.getString("errorDatabase"));
-			}/* */
-
-			//System.out.println(passwordField);
-
+		        }
 		} catch (Exception e) {
 			// un error aun peor
 			 System.out.println(e);
@@ -105,7 +100,6 @@ public class backUp extends JFrame {
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ruta = tfRuta.getText();
-				System.out.println(ruta);
 				if (!(ruta.isEmpty())) {
 					backup(ruta);
 				} else {
