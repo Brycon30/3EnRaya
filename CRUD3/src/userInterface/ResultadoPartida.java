@@ -58,13 +58,20 @@ public class ResultadoPartida extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel(resultado);
+		if(resultado.equals("Ganaste")) {
+			lblNewLabel.setText(messages.getString("iWin"));
+		}else if(resultado.equals("Empate")){
+			lblNewLabel.setText(messages.getString("Draw"));
+		}else {
+			lblNewLabel.setText(messages.getString("lost"));
+		}
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 54));
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(0, 47, 584, 67);
 		contentPane.add(lblNewLabel);
 		
-		JButton btnNewButton = new JButton("Menu de inicio");
+		JButton btnNewButton = new JButton(messages.getString("startMenu"));
 		btnNewButton.setForeground(new Color(30, 144, 255));
 		btnNewButton.setFont(new Font("Arial", Font.PLAIN, 25));
 		btnNewButton.addActionListener(new ActionListener() {
