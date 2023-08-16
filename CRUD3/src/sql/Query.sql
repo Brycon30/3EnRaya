@@ -137,6 +137,7 @@ insert into bitacoraJugadores values(
 GETDATE(),SYSTEM_USER,APP_NAME(),HOST_NAME(),@reg,@regNuevo)
 end
 
+--SE CREA TRIGGER QUE HACE UPDATE A UNA PREGUNTA EN CASO DE QUE EL USUARIO YA TENGA UNA REGISTRADA PREVIAMENTE JUJUY
 create trigger insPregunta
 on preguntasSeguridad
 instead of insert
