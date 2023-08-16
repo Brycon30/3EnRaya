@@ -49,7 +49,7 @@ public class backUp extends JFrame {
 	}
 	
 	public static void backup(String r) {
-		String sql = "exec backupTER ?";
+		String sql = "{call backupTER(?)}";
 		System.out.println("Se entra");
 		System.out.println(r);
 
