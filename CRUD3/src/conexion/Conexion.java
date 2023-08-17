@@ -10,8 +10,8 @@ public class Conexion {
 	
 	public static Connection getConnection() {
 		String conexionUrl = "jdbc:sqlserver://localhost:1433;"
-				+ "databaseName=tresenraya;"
-				+ "user=SA;"
+				+ "databaseName=tresenraya2;"
+				+ "user=adminTER;"
 				+ "password=admin123;"+
 				"encrypt=true;trustServerCertificate=true";
 		
