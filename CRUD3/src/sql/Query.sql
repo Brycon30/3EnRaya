@@ -1,5 +1,5 @@
 --SE CREA LA BASE DE DATOS
-create database tresenraya
+create database tresenraya2
 
 --INTENTANDO HACER COMMIT DESDE SQL
 --INTENTANDO HACER PULL DESDE GIT A SQL
@@ -353,7 +353,8 @@ select*from jugadores
 select*from preguntasSeguridad
 
 alter procedure backupTER
-@ruta nvarchar(128)
+@ruta nvarchar(128),
+@nombreSend nvarchar(128)
 as
 begin
 declare @nombreBackup nvarchar(128);
