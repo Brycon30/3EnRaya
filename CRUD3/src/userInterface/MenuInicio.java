@@ -116,7 +116,7 @@ public class MenuInicio extends JFrame {
 
 		btnJugar = new JButton(messages.getString("Play"));
 		btnJugar.setBackground(Color.WHITE);
-		btnJugar.setFont(new Font("Arial", Font.PLAIN, 25));
+		btnJugar.setFont(new Font("Arial", Font.PLAIN, 30));
 		btnJugar.setForeground(new Color(30, 144, 255));
 		btnJugar.setBounds(10, 57, 223, 102);
 		contentPane.add(btnJugar);
@@ -151,6 +151,8 @@ public class MenuInicio extends JFrame {
         btnAdmin = new JButton("Admin"); //$NON-NLS-1$
         btnAdmin.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		backUp bu = new backUp();
+        		bu.setVisible(true);
         	}
         });
         btnAdmin.setForeground(new Color(30, 144, 255));

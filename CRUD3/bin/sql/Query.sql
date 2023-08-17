@@ -228,7 +228,7 @@ END
 end
 
 --SE CREA EL TRIGGER QUE EVITA QUE SE CAMBIE EL NOMBRE DE UN JUGADOR
-alter trigger verificarUpdateUsuario
+create trigger verificarUpdateUsuario
 ON jugadores
 instead of update
 as
@@ -350,15 +350,16 @@ VALUES ('tongo', 'abc123', '1111111111', 0)
 
 select*from partidas
 select*from jugadores
+select*from preguntasSeguridad
 
-create procedure backupTER
+alter procedure backupTER
 @ruta nvarchar(128)
 as
 begin
 declare @nombreBackup nvarchar(128);
 set @nombreBackup = 'tresEnRaya' + '_' + replace(convert(nvarchar(20), getdate(), 120), ':', '') + '.bak';
 declare @SqlCommand nvarchar(500);
-set @SqlCommand = 'BACKUP DATABASE ' + quotename('tresenraya') + ' TO DISK = N''' +
+set @SqlCommand = 'BACKUP DATABASE ' + quotename('tresenraya2') + ' TO DISK = N''' +
 @ruta + @nombreBackup + ''' WITH INIT;';
 exec sp_executesql @SqlCommand;
 end
